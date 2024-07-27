@@ -7,20 +7,16 @@ import vercel from "@astrojs/vercel/serverless";
 export default defineConfig({
   integrations: [
     starlight({
-      title: "My Docs",
+      title: "Documentation HIMARPL",
       social: {
-        github: "https://github.com/withastro/starlight",
+        github: "https://github.com/himarplupi",
       },
       sidebar: [
         {
           label: "Guides",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: "Example Guide",
-              slug: "guides/example",
-            },
-          ],
+          autogenerate: {
+            directory: "guides",
+          },
         },
         {
           label: "Reference",
