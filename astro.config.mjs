@@ -32,9 +32,9 @@ export default defineConfig({
           },
         },
         {
-          label: "Overview Projects",
+          label: "Overview",
           autogenerate: {
-            directory: "overview-projects",
+            directory: "overview",
           },
         },
         {

@@ -1,0 +1,39 @@
+---
+title: Infrastructure Overview
+description: Understanding HIMARPL's infrastructure setup and services
+---
+
+HIMARPL's projects are built on modern cloud infrastructure to ensure reliability, scalability, and ease of maintenance.
+
+## Hosting Services
+
+We primarily use Vercel for hosting our applications:
+
+- **Production Deployments**: Automated via GitHub Actions
+- **Preview Deployments**: Generated for each PR
+- **Edge Functions**: Utilized for API routes
+- **Analytics**: Built-in Vercel Analytics
+
+## Database Solutions
+
+Our projects use various database solutions:
+
+- **Primary Database**: PlanetScale (MySQL)
+- **Caching**: Upstash Redis
+- **ORM**: Prisma
+
+## Analytics & Monitoring
+
+We implement various tools to monitor our applications:
+
+- **Performance**: Vercel Analytics
+- **Error Tracking**: Sentry
+- **Usage Analytics**: Umami (self-hosted)
+
+## Rate Limiting
+
+To protect our services, we implement rate limiting:
+
+- **API Routes**: Upstash Redis + Vercel Edge Functions
+- **Authentication**: Next-Auth rate limiting
+- **Database**: PlanetScale connection limits
