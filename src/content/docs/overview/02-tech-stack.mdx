@@ -1,33 +1,78 @@
 ---
-title: Tech Stack
+title: Tech Stack Overview
 description: Detailed look at HIMARPL's technology choices and architecture
 ---
 
-HIMARPL projects are built using modern web technologies, primarily centered around the T3 Stack.
+HIMARPL projects are built using modern web technologies, primarily centered around the T3 Stack. Here's a detailed breakdown of our technology choices:
 
 ## Core Technologies
 
-### Frontend
+### Frontend (ReactJS)
 
 - **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS
-- **Components**: shadcn/ui
-- **State Management**: Zustand
-- **Forms**: React Hook Form + Zod
+- **Styling**: TailwindCSS
+- **Components**: Shadcn/UI
+- **Animation**: Framer Motion
+- **Data Fetching**: Tanstack React Query
 
-### Backend
+### T3 Stack (Middle Layer)
 
-- **Runtime**: Node.js
-- **API**: tRPC
-- **Database**: Prisma + PlanetScale
-- **Authentication**: Next-Auth
-- **File Storage**: Upload Thing
+- **Language**: TypeScript
+- **Framework**: Next.js
+- **API Layer**: tRPC
+- **Database ORM**:
+  - Prisma (Main projects)
+  - Drizzle (Bot project)
+- **Authentication**: NextAuth.js
 
-### Documentation
+### Backend (NextJS API Route)
 
-- **Framework**: Astro + Starlight
-- **Deployment**: Vercel
-- **Content**: MDX
+- **API Gateway**: NextJS API Routes
+- **Type Safety**: tRPC Router & Procedures
+- **Integration**: @tRPC Next
+- **Proxy**: Reverse proxy for analytics
+
+## Infrastructure Services
+
+### Databases
+
+- **Main Database**: CockroachDB (Distributed SQL)
+- **Bot Database**: PostgreSQL (NeonDB)
+- **Caching**: Redis (Upstash)
+
+### Analytics & Monitoring
+
+- **User Analytics**: Posthog
+
+### Deployment & Hosting
+
+- **Platform**: Vercel
+- **CI/CD**: GitHub Actions
+- **Edge Functions**: Vercel Edge Runtime
+
+## Project-Specific Stacks
+
+### Main Projects
+
+(ascendia-himarpl, admin-himarpl, blog-himarpl, pmb-himarpl)
+
+- Full T3 Stack implementation
+- Complete three-layer architecture
+- Shared services integration
+
+### Light Projects
+
+(lomba-himarpl, mabim-himarpl)
+
+- Frontend-only implementation
+- NextJS + TailwindCSS
+
+### Bot Project
+
+(bot-himarpl)
+
+- T3 Stack with Drizzle ORM
+- Telegram Bot API integration
 
 ## Why T3 Stack?
 
@@ -37,3 +82,10 @@ We chose the T3 Stack ([create.t3.gg](https://create.t3.gg)) for our projects be
 2. **Developer Experience**: Excellent DX with modern tools
 3. **Performance**: Built-in optimizations
 4. **Scalability**: Production-ready architecture
+5. **Flexibility**: Adaptable for different project needs
+
+## Documentation
+
+- **Framework**: Astro + Starlight
+- **Deployment**: Vercel
+- **Content**: MDX

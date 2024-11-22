@@ -1,39 +1,136 @@
 ---
 title: Infrastructure Overview
-description: Understanding HIMARPL's infrastructure setup and services
+description: A guide to HIMARPL's cloud infrastructure and technical architecture
 ---
 
-HIMARPL's projects are built on modern cloud infrastructure to ensure reliability, scalability, and ease of maintenance.
+HIMARPL leverages modern cloud infrastructure to build reliable, scalable, and maintainable applications.
 
-## Hosting Services
+## Core Projects
 
-We primarily use Vercel for hosting our applications:
+![Main Projects Component Diagram](../../../assets/diagrams/main-projects-diagram.png)
 
-- **Production Deployments**: Automated via GitHub Actions
-- **Preview Deployments**: Generated for each PR
-- **Edge Functions**: Utilized for API routes
-- **Analytics**: Built-in Vercel Analytics
+Our main projects follow a consistent architecture pattern:
 
-## Database Solutions
+- [Ascendia](https://github.com/himarplupi/ascendia-himarpl) - Main organization website
+- [Admin Portal](https://github.com/himarplupi/admin-himarpl) - Internal admin dashboard
+- [Blog Platform](https://github.com/himarplupi/blog-himarpl) - Medium-style blogging
+- [PMB](https://github.com/himarplupi/pmb-himarpl) - Website information for student admission
 
-Our projects use various database solutions:
+### Three-Layer Architecture
 
-- **Primary Database**: PlanetScale (MySQL)
-- **Caching**: Upstash Redis
-- **ORM**: Prisma
+Each project implements a three-layer architecture:
 
-## Analytics & Monitoring
+#### 1. Frontend Layer ([React](https://react.dev/))
 
-We implement various tools to monitor our applications:
+Modern UI built with:
 
-- **Performance**: Vercel Analytics
-- **Error Tracking**: Sentry
-- **Usage Analytics**: Umami (self-hosted)
+- 🎨 [TailwindCSS](https://tailwindcss.com/) - Utility-first styling
+- 🧩 [Shadcn/UI](https://ui.shadcn.com/docs) - Reusable components
+- ✨ [Motion](https://motion.dev) - Smooth animations
+- 🔄 [Tanstack Query](https://tanstack.com/query) - Data fetching
 
-## Rate Limiting
+#### 2. Middle Layer ([T3 Stack](https://create.t3.gg/))
 
-To protect our services, we implement rate limiting:
+Type-safe backend integration using:
 
-- **API Routes**: Upstash Redis + Vercel Edge Functions
-- **Authentication**: Next-Auth rate limiting
-- **Database**: PlanetScale connection limits
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Next.js](https://nextjs.org/) - React framework
+- [tRPC](https://trpc.io/) - End-to-end typesafe APIs
+- [Prisma](https://www.prisma.io/) - Database ORM
+- [NextAuth](https://next-auth.js.org/) - Authentication
+
+#### 3. Backend Layer (Next.js API Routes)
+
+Server-side logic with:
+
+- Analytics proxy ([PostHog integration](https://posthog.com/docs/advanced/proxy/nextjs))
+- [tRPC Router](https://trpc.io/docs/server/routers) - API endpoints
+- [tRPC Procedures](https://trpc.io/docs/server/procedures) - Business logic
+- [@tRPC Next](https://trpc.io/docs/nextjs) - Next.js integration
+
+### Shared Infrastructure
+
+Core services used across all projects:
+
+#### Database ([CockroachDB](https://www.cockroachlabs.com/))
+
+- Distributed SQL database
+- Handles cross-project data
+
+#### Analytics ([PostHog](https://posthog.com/))
+
+- User behavior tracking
+- Performance monitoring
+- Centralized analytics
+
+#### Rate Limiting ([Upstash](https://upstash.com/))
+
+- Redis-based rate limiting
+- API rate limiting
+
+## Event-Specific Projects
+
+![Extended Projects Component Diagram](../../../assets/diagrams/extended-projects-diagram.png)
+
+We maintain lightweight projects for events and temporary needs:
+
+- `lomba-himarpl` - Competition websites
+- `mabim-himarpl` - Student orientation sites
+
+These use a simplified frontend-only stack:
+
+- Next.js + React
+- TailwindCSS styling
+- Shadcn/UI components
+- Motion animations
+
+## Bot Platform (Phoenix-chan)
+
+![Bot HIMARPL Component Diagram](../../../assets/diagrams/bot-himarpl-diagram.png)
+
+Our Telegram bot uses a specialized architecture:
+
+### Components
+
+1. **Frontend Dashboard**
+
+   - On development, [contribute here](https://github.com/himarplupi/bot-himarpl)
+
+2. **T3 Stack Core**
+
+   - TypeScript
+   - Next.js routing
+   - Drizzle ORM
+   - Upstash rate limiting
+
+3. **Bot Service**
+   - Webhook handlers
+   - Command procedures
+   - Telegram API integration
+
+### External Services
+
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+- [NeonDB](https://neon.tech/) (PostgreSQL)
+- [Upstash](https://upstash.com/) Redis
+
+## Deployment
+
+:::note
+**Important Note for Kominfo Staff**
+
+New Vercel projects require manual GitHub Actions setup:
+
+1. Create GitHub repo on [HIMARPL UPI](https://github.com/himarplupi)
+2. Create Vercel project (use main HIMARPL GitHub account, not organization)
+3. Get Vercel deployment token
+4. Set up GitHub Actions
+
+[View setup guide](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)
+:::
+
+We use [Vercel](https://vercel.com/) for deployment with:
+
+- 🚀 Automated production deployments
+- 🔍 Preview deployments for PRs
+- ⚡️ Edge Functions support

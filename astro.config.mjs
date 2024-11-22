@@ -1,12 +1,17 @@
 import { defineConfig } from "astro/config";
+import starlightImageZoom from "starlight-image-zoom";
 import starlight from "@astrojs/starlight";
-
 import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://docs.himarpl.com",
   integrations: [
     starlight({
+      plugins: [starlightImageZoom()],
+      editLink: {
+        baseUrl: "https://github.com/himarplupi/docs-himarpl/edit/main",
+      },
       title: "Documentation HIMARPL",
       defaultLocale: "root",
       locales: {
@@ -26,13 +31,19 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Getting Started",
+          label: "Start Here",
+          translations: {
+            id: "Mulai Dari Sini",
+          },
           autogenerate: {
             directory: "getting-started",
           },
         },
         {
           label: "Overview",
+          translations: {
+            id: "Pengantar",
+          },
           autogenerate: {
             directory: "overview",
           },
@@ -69,11 +80,15 @@ export default defineConfig({
         },
         {
           label: "Other Projects",
+          translations: {
+            id: "Proyek Lainnya",
+          },
           autogenerate: {
             directory: "other-projects",
           },
         },
       ],
+      customCss: ["./src/styles/custom.css"],
     }),
   ],
   output: "server",
