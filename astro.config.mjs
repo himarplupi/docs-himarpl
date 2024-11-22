@@ -15,7 +15,7 @@ export default defineConfig({
       title: "Documentation HIMARPL",
       defaultLocale: "root",
       locales: {
-        // English docs in `src/content/docs/en/`
+        // English docs in `src/content/docs/`
         root: {
           label: "English",
           lang: "en",
@@ -49,31 +49,31 @@ export default defineConfig({
           },
         },
         {
-          label: "A. www-himarpl",
+          label: "ascendia-himarpl",
           autogenerate: {
-            directory: "www-himarpl",
+            directory: "ascendia-himarpl",
           },
         },
         {
-          label: "B. blog-himarpl",
+          label: "blog-himarpl",
           autogenerate: {
             directory: "blog-himarpl",
           },
         },
         {
-          label: "C. pmb-himarpl",
+          label: "pmb-himarpl",
           autogenerate: {
             directory: "pmb-himarpl",
           },
         },
         {
-          label: "D. mabim-himarpl",
+          label: "mabim-himarpl",
           autogenerate: {
             directory: "mabim-himarpl",
           },
         },
         {
-          label: "E. docs-himarpl",
+          label: "docs-himarpl",
           autogenerate: {
             directory: "docs-himarpl",
           },
