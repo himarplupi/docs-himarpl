@@ -1,0 +1,60 @@
+---
+title: Folder Structure
+description: Folder Structure of Ascendia Cabinet HIMARPL's Website
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- prisma/ # Database management (Prisma ORM)
+  - schema.prisma # Database schema definitions and relationships
+- public/ # Static assets (images, fonts, etc.)
+- src/ # Main source code directory
+  - app/ # Next.js 13+ App Router directory
+    - api/ # API routes
+      - trpc/ # tRPC API configuration
+        - [trpc]/ # tRPC dynamic routes
+    - contact/ # Contact page feature
+      - page.tsx # Contact page component
+    - about/ # About section with dynamic routing
+      - [type]/ # Dynamic route for different types
+        - [department]/ # Nested dynamic route for departments
+          - page.tsx
+      - logo-philosophy/ # Logo philosophy section
+        - page.tsx
+    - dedication/ # Dedication page feature
+      - page.tsx
+    - news/ # News feature
+      - page.tsx
+    - page.tsx # Homepage
+    - layout.tsx # Root layout
+  - components/ # React components organized by feature
+    - about/ # About page components
+    - brand/ # Branding related components
+    - contact/ # Contact page components
+    - common/ # Shared components across features
+      - global-footer.tsx # Footer component
+    - dedication/ # Dedication page components
+    - logo-philosophy/ # Logo philosophy components
+    - motion/ # Animation components
+    - news/ # News feature components
+    - ui/ # Reusable UI components (shadcn/ui)
+  - hooks/ # Custom React hooks
+  - lib/ # Utility functions and shared logic
+    - utils.ts # General utility functions
+  - styles/ # Styling files
+    - globals.css # Global CSS styles
+  - server/ # Server-side code
+    - api/ # Server-side API implementations
+  - trpc/ # tRPC configurations and routers
+  - env.js # Environment variable validation (t3-env)
+</FileTree>
+
+This project follows the [T3 Stack](https://create.t3.gg/) architecture, which emphasizes type-safety and modularity. The structure above shows our feature-based organization, clear separation of client/server code, and adherence to Next.js App Router conventions.
+
+Key features of this structure:
+- Feature-based component organization
+- Type-safe API layer with tRPC
+- Database management with Prisma
+- Environment variable validation
+- Modular and scalable architecture

@@ -1,0 +1,123 @@
+---
+title: Setup Local Development
+description: How to setup Ascendia Cabinet HIMARPL Website Local Development
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Steps } from "@astrojs/starlight/components";
+import { Code } from "@astrojs/starlight/components";
+
+This guide will walk you through setting up a local development environment for the Ascendia Cabinet HIMARPL website.
+
+## Prerequisites
+
+Before installing the application, ensure you have:
+
+1. [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed
+2. [Git](https://git-scm.com/) installed
+3. Access to the following services:
+   - CockroachDB account
+   - PostHog account (optional)
+
+## Environment Setup Details
+
+The project requires several environment variables to be set up in a `.env` file for proper functionality.
+
+### CockroachDB Setup
+
+Follow the [CockroachDB Quickstart Guide](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart) to get your `DATABASE_URL`.
+
+## Setup Steps
+
+<Steps>
+
+1. Fork and clone the repository:
+
+   <Tabs>
+     <TabItem label="HTTPS">
+       <Code
+         code={`git clone https://github.com/himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="HTTPS"
+       />
+     </TabItem>
+     <TabItem label="SSH">
+       <Code
+         code={`git clone git@github.com:himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="SSH"
+       />
+     </TabItem>
+     <TabItem label="GitHub CLI">
+       <Code
+         code={`gh repo clone himarplupi/ascendia-himarpl`}
+         lang="bash"
+         title="GitHub CLI"
+       />
+     </TabItem>
+   </Tabs>
+
+2. Navigate to project directory:
+
+   ```bash
+   cd ascendia-himarpl
+   ```
+
+3. Create environment variables file:
+   Create a `.env` file in the root directory with the following variables:
+
+   ```bash
+   DATABASE_URL=
+   NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+   NEXT_PUBLIC_BASE_PATH=""
+   NEXT_BASE_URL="http://localhost:3000"
+   NEXT_PUBLIC_POSTHOG_KEY=
+   NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+   ```
+
+4. Set up remote upstream:
+
+   <Tabs>
+     <TabItem label="HTTPS">
+       <Code
+         code={`git remote add upstream https://github.com/himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="HTTPS"
+       />
+     </TabItem>
+     <TabItem label="SSH">
+       <Code
+         code={`git remote add upstream git@github.com:himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="SSH"
+       />
+     </TabItem>
+     <TabItem label="GitHub CLI">
+       <Code
+         code={`gh repo sync himarplupi/ascendia-himarpl`}
+         lang="bash"
+         title="GitHub CLI"
+       />
+     </TabItem>
+   </Tabs>
+
+5. Install dependencies and start development server:
+
+   ```bash
+   npm ci              # Install dependencies
+   npm run db:push     # Push database schema to CockroachDB
+   npm run dev         # Start development server
+   ```
+
+   The application should now be running at `http://localhost:3000`.
+
+</Steps>
+
+## Available Scripts
+
+- `npm run dev` - Starts development server with hot reload
+- `npm run build` - Creates production build
+- `npm run start` - Starts production server
+- `npm run db:push` - Pushes database schema to CockroachDB
+- `npm run db:studio` - Opens Prisma Studio for database management
+- `npm run lint` - Runs linting checks
