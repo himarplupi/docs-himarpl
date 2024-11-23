@@ -27,3 +27,7 @@
   --sl-color-gray-7: #f6f6f8;
   --sl-color-black: #ffffff;
 }
+
+.sl-markdown-content {
+  margin-top: 0;
+}
