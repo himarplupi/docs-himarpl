@@ -1,0 +1,123 @@
+---
+title: Environment Variables and Configuration
+description: Learn how to configure environment variables and other configurations in the Ascendia HIMARPL website project.
+---
+
+Managing environment variables in our project is an essential task, but it can also be challenging. This project uses environment variables for configuration management, leveraging [t3-env](https://github.com/t3-oss/t3-env) for type-safe environment variables with runtime validation. When you add new environment variables, you need to update the `.env.example` file and the `src/env.js` file to ensure everything is working correctly.
+
+## Configuration Files
+
+### 1. Environment Schema (`src/env.js`)
+
+The `env.js` file defines the schema and validation rules for all environment variables using Zod. It's divided into three main sections:
+
+```javascript title="src/env.js"
+export const env = createEnv({
+  // Server-side variables
+  server: {
+    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    BASE_URL: z.string().url(),
+    BASE_PATH: z.string().optional(),
+  },
+
+  // Client-side variables (must be prefixed with NEXT_PUBLIC_)
+  client: {
+    NEXT_PUBLIC_POSTHOG_KEY: z.string(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().url(),
+  },
+
+  // Runtime environment mapping
+  runtimeEnv: {
+    // ... variable mappings
+    DATABASE_URL: process.env.DATABASE_URL,
+    NODE_ENV: process.env.NODE_ENV,
+    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL
+      ? process.env.NEXT_PUBLIC_BASE_URL
+      : process.env.NEXT_PUBLIC_VERCEL_URL
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : "https://himarpl.com",
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH || "",
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  }
+});
+```
+
+### 2. Environment File (`.env`)
+
+Create a `.env` file in the project root with your environment-specific values:
+
+```plaintext title=".env"
+# Database Configuration
+DATABASE_URL="your-database-url"
+
+# Base URL Configuration
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+NEXT_PUBLIC_BASE_PATH=""
+
+# PostHog Analytics
+NEXT_PUBLIC_POSTHOG_KEY="your-posthog-key"
+NEXT_PUBLIC_POSTHOG_HOST="https://us.i.posthog.com"
+```
+
+## Key Features
+
+- **Type Safety**: All environment variables are validated at build and runtime
+- **Runtime Validation**: Ensures your app isn't built with invalid env vars
+- **Client-Side Safety**: Clear separation between server and client variables
+- **Default Values**: Fallbacks for certain variables when not specified
+- **Empty String Handling**: Empty strings are treated as undefined by default
+
+## Usage Guidelines
+
+1. **Server-Side Variables**:
+   - Access using `env.VARIABLE_NAME`
+   - Never exposed to the client
+   - Example: `env.DATABASE_URL`
+
+2. **Client-Side Variables**:
+   - Must be prefixed with `NEXT_PUBLIC_`
+   - Can be accessed in both server and client code
+   - Example: `env.NEXT_PUBLIC_POSTHOG_KEY`
+
+3. **Development**:
+   - Create a local `.env` file based on `.env.example`
+   - Never commit `.env` to version control
+   - Update `env.js` schema when adding new variables
+
+## Example Usage
+
+```javascript title="src/server/db.ts" {1, 7, 16}
+import { env } from "@/env";
+import { PrismaClient } from "@prisma/client";
+
+const createPrismaClient = () =>
+  new PrismaClient({
+    log:
+      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+  });
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined;
+};
+
+export const db = globalForPrisma.prisma ?? createPrismaClient();
+
+if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+
+```
+
+You can access the environment variables in your code like this:
+
+```javascript
+import { env } from "@/env.js";
+
+// Server-side usage
+const dbUrl = env.DATABASE_URL;
+
+// Client-side usage
+const posthogKey = env.NEXT_PUBLIC_POSTHOG_KEY;
+```
+
