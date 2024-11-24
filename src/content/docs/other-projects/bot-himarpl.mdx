@@ -1,0 +1,208 @@
+---
+title: bot-himarpl
+description: The Telegram Bot for HIMARPL
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Steps } from "@astrojs/starlight/components";
+import { Code } from "@astrojs/starlight/components";
+
+![Phoenix-chan](https://cdn.jsdelivr.net/gh/himarplupi/assets-himarpl@main/images/phoenix-chan-512x512.png)
+
+The HIMARPL Telegram Bot named Phoenix Chan is available at [@himarpl_bot](https://t.me/himarpl_bot).
+
+## Key Features 
+
+- Notification System for Blog Posts
+- Command-based Interactions
+- Rate Limiting Protection
+- Webhook Integration
+- Database Integration with NeonDB
+- Edge Runtime Support
+
+## Core Dependencies
+
+**Framework & Runtime**
+
+- Next.js 14
+- Node.js
+- TypeScript
+- Edge Runtime
+
+**Database & API**
+
+- DrizzleORM
+- NeonDB
+- tRPC
+- Zod
+
+**Bot Integration**
+
+- Telegram Bot API
+- node-telegram-bot-api Types
+
+**Development Tools**
+
+- ESLint
+- Prettier
+- TypeScript
+- Drizzle Kit
+
+## Project Structure
+
+- `/src/bot` - Bot logic and responses
+- `/src/server` - API routes and database schema
+- `/src/app` - Next.js app router pages
+- `/src/trpc` - tRPC configuration
+- `/src/lib` - Utility functions
+
+## Setup Local Development
+
+This guide will walk you through setting up a local development environment for the HIMARPL Telegram Bot.
+
+### Prerequisites
+
+Before installing the application, ensure you have:
+
+1. [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed
+2. [Git](https://git-scm.com/) installed
+3. A Telegram Bot Token (get from [@BotFather](https://t.me/botfather)) follow the [Telegram API](https://core.telegram.org/bots#how-do-i-create-a-bot) guide to obtain `TELEGRAM_BOT_TOKEN` and `TELEGRAM_BOT_SECRET`.
+4. NeonDB Database URL (follow the [NeonDB](https://neon.tech/docs/get-started-with-neon/connect-neon#obtaining-connection-details) guide for `DATABASE_URL`)
+5. Upstash Redis for Rate Limiting (follow the [Upstash Ratelimiting](https://upstash.com/docs/oss/sdks/ts/ratelimit/gettingstarted) guide to obtain `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`)
+
+### Setup Steps
+
+<Steps>
+
+1. Fork and clone the repository:
+
+   <Tabs>
+     <TabItem label="HTTPS">
+       ```bash
+       git clone https://github.com/himarplupi/bot-himarpl.git
+       ```
+     </TabItem>
+     <TabItem label="SSH">
+       ```bash
+       git clone git@github.com:himarplupi/bot-himarpl.git
+       ```
+     </TabItem>
+     <TabItem label="GitHub CLI">
+       ```bash
+       gh repo clone himarplupi/bot-himarpl
+       ```
+     </TabItem>
+   </Tabs>
+
+2. Navigate to project directory:
+
+   ```bash
+   cd bot-himarpl
+   ```
+
+3. Create `.env` file with required variables:
+
+   ```bash
+   DATABASE_URL=
+   TELEGRAM_BOT_TOKEN=
+   TELEGRAM_BOT_SECRET=
+   TELEGRAM_BOT_USERNAME=
+   TELEGRAM_BOT_API_URL=
+   UPSTASH_REDIS_REST_URL=
+   UPSTASH_REDIS_REST_TOKEN=
+   API_TOKEN=
+   ```
+
+4. Set up remote upstream:
+
+   <Tabs>
+     <TabItem label="HTTPS">
+       ```bash
+       git remote add upstream https://github.com/himarplupi/bot-himarpl.git
+       ```
+     </TabItem>
+     <TabItem label="SSH">
+       ```bash
+       git remote add upstream git@github.com:himarplupi/bot-himarpl.git
+       ```
+     </TabItem>
+     <TabItem label="GitHub CLI">
+       ```bash
+       gh repo sync himarplupi/bot-himarpl
+       ```
+     </TabItem>
+   </Tabs>
+
+5. Install dependencies and start development:
+
+   ```bash
+   npm run db:push    # Push database schema
+   npm ci             # Install dependencies
+   npm run dev        # Start development server
+   npm run ngrok      # Start ngrok tunnel
+   npm run tl:set-webhook <NGROK_URL>  # Set Telegram webhook
+   ```
+
+6. Create a new branch for your changes:
+
+   ```bash
+   git checkout -b my-feature-branch
+   ```
+
+7. After making changes, commit and push:
+
+   ```bash
+   git add .
+   git commit # Follow conventional commits
+   git push -u origin my-feature-branch
+   ```
+
+   :::note[IMPORTANT]
+   Before committing, please read the [Commit Guidelines](https://github.com/himarplupi/bot-himarpl/blob/main/CONTRIBUTING.md#pedoman-commit) section.
+   :::
+
+8. Create Pull Request
+   :::note[NOTE]
+   We request PR authors to avoid unnecessary rebasing with the main branch.
+   :::
+
+</Steps>
+
+### Available Scripts
+
+This repository contains several scripts and commands for various tasks. The most relevant commands are explained below.
+
+<details>
+  <summary>Commands for Running & Building Website or Bot</summary>
+
+- `npm run dev` runs the local Next.js development server, listening on `http://localhost:3000/`.
+- `npm run build` builds the application in production mode. The output is located in the `.next` folder by default.
+  - This is used for HIMARPL Vercel Deployments (Preview & Production)
+- `npm run start` starts the web server running the built content from `npm run build`
+- `npm run ngrok` creates a local ngrok tunnel so your localhost can be accessed from the internet.
+- `npm run tl:set-webhook <URL_NGROK>` changes the Telegram webhook to the ngrok URL.
+- `npm run tl:set-command` sets the Telegram bot commands (make sure to write the commands in the `setCommands.js` file as well).
+
+</details>
+
+<details>
+  <summary>Commands for Maintenance and Testing</summary>
+
+- `npm run db:push` pushes the database schema to NeonDB.
+- `npm run db:studio` runs prisma studio for database management.
+- `npm run lint` runs the linter for all files.
+- `npm run test` runs all tests locally
+
+</details>
+
+## Support
+
+For questions or issues:
+
+- [GitHub Issues](https://github.com/himarplupi/bot-himarpl/issues)
+- Contact Departemen Kominfo HIMARPL
+- Visit [himarpl.com](https://www.himarpl.com)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/himarplupi/bot-himarpl/blob/main/LICENSE) file for details.
