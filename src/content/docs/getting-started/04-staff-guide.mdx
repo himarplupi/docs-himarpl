@@ -102,7 +102,37 @@ Keep in mind these upcoming changes:
    - [lomba.himarpl.com](https://lomba.himarpl.com) - Available for future events
    - Can use existing repo or create new ones as needed
 
-### Further Reading
+## Input New Staff Data
+
+Follow these steps to add new staff members:
+
+1. **Access the Admin Panel**
+   - Go to [admin.himarpl.com](https://admin.himarpl.com)
+   - Login using the main HIMARPL account
+
+2. **Navigate to Staff Section**
+   - Go to the `Staff` section
+   - Change the period to the current year (e.g., 2025)
+
+:::note[NOTE]
+If there is no data for the current period, you can add it manually using prisma studio.
+:::
+
+3. **Prepare Staff Images**
+   - Upload staff photos to the [assets-himarpl](https://github.com/himarpl/assets-himarpl) repository
+   - Convert GitHub links to CDN links using [jsdelivr](https://www.jsdelivr.com/github)
+
+4. **Add Staff Members**
+   - Click "Add New Staff"
+   - Fill in staff details
+   - Paste the jsdelivr CDN link in the `image` field
+   - Save the changes
+
+:::note[TIP]
+You can reference previous period's staff data to see examples of properly formatted entries.
+:::
+
+## Further Reading
 
 1. [Infrastructure Overview](/docs/overview/01-infrastructure)
 2. [Tech Stack Overview](/docs/overview/02-tech-stack)
