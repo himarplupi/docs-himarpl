@@ -14,7 +14,6 @@ Inside of this documentation project, you'll see the following folders and files
 ├── src/
 │   ├── assets/
 │   │   ├── docs/
-│   │   ├── id/
 │   │   └── config.ts
 │   ├── styles/
 │   └── env.d.ts
