@@ -61,7 +61,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Contributing
 
-Please read our [Contribution Guide](/getting-started/05-contribution-guide) before submitting any contributions.
+Please read our [Contribution Guide](/CONTRIBUTING.md) before submitting any contributions.
 
 ## 🤝 Support
 
