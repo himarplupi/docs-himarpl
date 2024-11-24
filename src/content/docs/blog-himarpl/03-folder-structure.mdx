@@ -1,0 +1,180 @@
+---
+title: Folder Structure
+description: Folder Structure of Blog HIMARPL Website 
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- prisma/ # Database management (Prisma ORM)
+  - schema.prisma # Database schema definitions
+  - seed.js # Database seeding script
+- public/
+- src/ # Main source code directory
+  - app/ # Next.js 14 App Router
+    - [username]/ # Dynamic user profile routes
+    - api/ # API routes
+      - trpc/ # tRPC API configuration
+    - explore-tags/ # Explore tags page
+    - login/ # Login page
+    - me/ # Current user dashboard
+    - new/ # Route for creating a new post
+    - register/ # Register page
+    - search/ # Search functionality
+    - tag/ # Tags page
+      - [tag-slug]/ # Dynamic tag routes
+    - page.tsx # Homepage
+    - layout.tsx # Root layout
+  - components/ # React components
+    - brand/ # Brand components
+    - common/ # Shared components
+      - navbar.tsx
+      - global-footer.tsx
+    - editor/ # TipTap editor components
+    - home/ # Homepage components
+    - me/ # User dashboard components
+    - post/ # Post components
+    - publish/ # Publish components
+    - search/ # Search components
+    - ui/ # UI component library (shadcn/ui)
+  - hooks/ # Custom React hooks
+  - images/ # Static images
+  - lib/ # Utility functions
+    - utils.ts
+  - server/ # Server-side code
+    - api/ # tRPC API handlers
+    - auth.ts # Authentication setup
+    - db.ts # Database configuration
+    - ratelimit.ts # Rate limiting configuration
+  - styles/ # Global styles
+    - globals.css
+  - trpc/ # tRPC setup
+  - env.js # Environment variables validation
+</FileTree>
+
+## Directory Structure Explanation
+
+This project follows the [T3 Stack](https://create.t3.gg/) architecture with [TipTap](https://tiptap.dev/) for rich text editing. The structure emphasizes type-safety, modularity, and clear separation of concerns.
+
+### Root Directories
+
+- **prisma/**: Contains database-related files using Prisma ORM
+  - `schema.prisma`: Defines database models, relationships, and configurations
+  - `seed.js`: Initial data seeding script
+- **public/**: Static assets that are served directly
+  - Images, fonts, and other public resources
+- **src/**: Main source code directory containing all application code
+
+### App Directory (Next.js App Router)
+
+The `app/` directory follows Next.js 14 App Router conventions:
+
+- **api/**: Backend API routes
+  - `trpc/`: tRPC API configuration and endpoints
+- **Feature-based pages**: Each major feature has its own directory
+  - `me/`, `search/`, `new/`, etc.
+  - Each contains a `page.tsx` for the main view
+- **Dynamic Routes**: Uses Next.js file-based routing
+  - `[username]/`: Dynamic routes for user profiles
+  - `tag/[tag-slug]/`: Dynamic routes for tag pages
+
+### Components Directory
+
+Components are organized by feature and responsibility:
+
+- **Feature Components**: Grouped by feature
+  - `editor/`: Rich text editor components
+  - `home/`: Homepage specific components
+  - `post/`: Post-related components
+  - `search/`: Search interface components
+  
+- **Common Components**: Shared across features
+  - `common/`: Global components like navbar and footer
+  - `brand/`: Branding related components
+  - `ui/`: Reusable UI components (using shadcn/ui)
+    - Buttons, forms, modals, etc.
+    - Theme configuration and base components
+
+### Core Directories
+
+- **hooks/**: Custom React hooks for shared logic
+- **lib/**: Core utilities and shared logic
+  - Common utilities
+  - Type definitions
+- **server/**: Server-side specific code
+  - API implementations
+  - Authentication setup
+  - Database configuration
+- **trpc/**: tRPC configuration and routers
+  - API route definitions
+  - Type-safe procedures
+
+### Styles
+
+- **styles/**: Global styling configurations
+  - `globals.css`: Global CSS styles, Tailwind configurations, and Shadcn/UI theme configuration
+
+
+## Importing Files
+
+To import files, you can use the `@/` alias. This alias is automatically configured in the project.
+
+```tsx title="src/app/page.tsx"
+import { Navbar } from "@/components/common/navbar";
+import { Articles } from "@/components/home/articles";
+import { Sidebar } from "@/components/home/sidebar";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getServerAuthSession } from "@/server/auth";
+```
+
+This approach is very useful when you are working on a large project with a lot of files and folders and it can be done by updating the tsconfig.json file to the following:
+
+<details>
+<summary>Typescript Config</summary>
+
+```diff lang="json" title="tsconfig.json" 
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+
+    /* Bundled projects */
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "incremental": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
++    "paths": {
++      "@/*": ["./src/*"]
++    }
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "lint-staged.config.js", "commitlint.config.js"]
+}
+```
+</details>
