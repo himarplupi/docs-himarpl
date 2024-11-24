@@ -98,7 +98,7 @@ When adding new content:
 3. Ensure both versions maintain consistent structure
 4. Update sidebar configuration in astro.config.mjs if adding new sections
 
-## Developer Certificate of Origin 1.1
+## Developer Certificate of Origin
 
 By contributing to this project, you certify that:
 
