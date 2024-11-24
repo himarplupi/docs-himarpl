@@ -67,12 +67,6 @@ export default defineConfig({
           },
         },
         {
-          label: "mabim-himarpl",
-          autogenerate: {
-            directory: "mabim-himarpl",
-          },
-        },
-        {
           label: "Other Projects",
           translations: {
             id: "Proyek Lainnya",
