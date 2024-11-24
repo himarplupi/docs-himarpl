@@ -73,12 +73,6 @@ export default defineConfig({
           },
         },
         {
-          label: "docs-himarpl",
-          autogenerate: {
-            directory: "docs-himarpl",
-          },
-        },
-        {
           label: "Other Projects",
           translations: {
             id: "Proyek Lainnya",

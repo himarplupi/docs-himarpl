@@ -1,0 +1,107 @@
+---
+title: Rules and Conventions
+description: Learn about the rules and conventions used in the PMB HIMARPL website project.
+---
+
+In order to enforce a consistent code style and avoid common issues in the codebase, we have a set of rules and conventions that we follow and enforce through the project.
+
+## Typescript
+
+This starter uses TypeScript to provide type safety and avoid common bugs in the codebase. The project configuration is based on T3 Stack with some updates.
+
+If you are not familiar with Typescript, you can check this article to learn more about it : [Typescript for React Developers](https://elazizi.com/posts/how-to-learn-typescript-for-react-developers/)
+
+You can find more information about it [here](https://create.t3.gg/en/usage/typescript).
+
+## Naming
+
+We follow kabab-case for naming files and folders as we think it's the most readable and consistent way to name files and folders in large projects and it's the most common way to name files and folders in the React community.
+
+Example of kabab-case naming: `my-component.tsx`
+
+For naming variables, functions, classes, interfaces, and enums, we follow camelCase as it's the most common way to name variables in the React community.
+
+Example of camelCase naming: `const myFunction = () => {}`
+
+
+## Linting
+
+Using a linter is a must in any JavaScript project. For starters, we are using ESLint with the T3 Stack config and some custom rules to ensure that we are following the rules and conventions related to file naming, Tailwind CSS classes, TypeScript types, import order, and more.
+
+Here is the complete ESLint configuration file:
+
+```javascript title="eslintrc.cjs"
+/** @type {import("eslint").Linter.Config} */
+const config = {
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: true,
+  },
+  plugins: ["@typescript-eslint", "unused-imports", "simple-import-sort"],
+  extends: [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
+    "prettier",
+  ],
+  rules: {
+    // These opinionated rules are enabled in stylistic-type-checked above.
+    // Feel free to reconfigure them to your own preference.
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+
+    "simple-import-sort/imports": [
+      "error",
+      {
+        groups: [
+          // `react` first, `next` second, then packages starting with a character
+          ["^react$", "^next", "^[a-z]"],
+          // Packages starting with `@`
+          ["^@"],
+          // Packages starting with `~`
+          ["^~"],
+          // Imports starting with `../`
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Imports starting with `./`
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          // Style imports
+          ["^.+\\.s?css$"],
+          // Side effect imports
+          ["^\\u0000"],
+        ],
+      },
+    ],
+    "simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
+
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "error",
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrorsIgnorePattern: "^_",
+      },
+    ],
+
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+      },
+    ],
+
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: { attributes: false },
+      },
+    ],
+  },
+};
+
+module.exports = config;
+```

@@ -1,0 +1,147 @@
+---
+title: Folder Structure
+description: Folder Structure of PMB HIMARPL's Website
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- prisma/ # Database management (Prisma ORM)
+  - schema.prisma # Database schema definitions and relationships
+- public/
+- src/ # Main source code directory
+  - app/ # Next.js App Router directory
+    - _components/ # homepage specific components
+    - api/ # API routes
+      - trpc/ # tRPC API configuration
+        - [trpc]/ # tRPC dynamic routes
+    - contact/ # Contact page
+      - page.tsx
+    - information/ # Information pages on registration
+      - [type]/ # Dynamic route for different types of registration
+        - _components/ # type specific components
+        - [subinfo]/ # Dynamic route for different subinformation
+          - page.tsx
+    - news/ # News page
+      - page.tsx
+    - software-engineering/ # About Software Engineering page
+      - page.tsx
+    - page.tsx # Homepage
+    - layout.tsx # Root layout
+  - components/ # global components
+    - ui/ # Reusable UI components (shadcn/ui)
+    - provider.tsx # Providers
+  - images/ # Images
+  - lib/ # Utility functions and shared logic
+    - utils.ts # General utility functions
+  - server/ # Server-side code
+    - api/ # Server-side API implementations
+  - styles/ # Styling files
+    - globals.css # Global CSS styles
+  - trpc/ # tRPC configurations and routers
+  - env.js # Environment variable validation (t3-env)
+</FileTree>
+
+## Directory Structure Explanation
+
+This project follows the [T3 Stack](https://create.t3.gg/) architecture, which emphasizes type-safety and modularity. The structure above shows our feature-based organization, clear separation of client/server code, and adherence to Next.js App Router conventions.
+
+### Root Directories
+
+- **prisma/**: Contains database-related files using Prisma ORM
+  - `schema.prisma`: Defines database models, relationships, and configurations
+- **public/**: Static assets that are served directly
+- **src/**: Main source code directory containing all application code
+
+### App Directory (Next.js App Router)
+
+The `app/` directory follows Next.js 13+ App Router conventions:
+
+- **_components/**: Homepage-specific components
+- **api/**: Backend API routes
+  - `trpc/`: tRPC API configuration and endpoints with dynamic routing
+- **Feature-based pages**: Each major feature has its own directory
+  - `contact/`: Contact page
+  - `information/`: Registration information pages with dynamic routing
+  - `news/`: News page
+  - `software-engineering/`: About Software Engineering page
+- **Root files**: 
+  - `page.tsx`: Homepage
+  - `layout.tsx`: Root layout
+
+### Core Directories
+
+- **components/**: Global components
+  - `ui/`: Reusable UI components (using shadcn/ui)
+  - `provider.tsx`: Application providers
+- **images/**: Image assets
+- **lib/**: Utility functions and shared logic
+  - `utils.ts`: General utility functions
+- **server/**: Server-side specific code
+  - `api/`: Server-side API implementations
+- **styles/**: Global styling configurations
+  - `globals.css`: Global CSS styles
+- **trpc/**: tRPC configurations and routers
+- **env.js**: Environment variable validation using t3-env
+
+## Importing Files
+
+To import files, you can use the `@/` alias. This alias is automatically configured in the project.
+
+```tsx title="src/app/news/page.tsx"
+import { CTAContactSection, Footer, GlobalFooter } from "@/app/_components";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { badgeVariants } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+```
+
+This approach is very useful when you are working on a large project with a lot of files and folders and it can be done by updating the tsconfig.json file to the following:
+
+<details>
+<summary>Typescript Config</summary>
+
+```diff lang="json" title="tsconfig.json" 
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+
+    /* Bundled projects */
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "incremental": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
++    "paths": {
++      "@/*": ["./src/*"]
++    }
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "lint-staged.config.js", "commitlint.config.js"]
+}
+```
+</details>
