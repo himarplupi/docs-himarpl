@@ -1,0 +1,171 @@
+---
+title: Panduan Cepat untuk Staf Departemen Kominfo
+deskripsi: Informasi khusus untuk staf dan pemelihara web di Departemen Kominfo
+---
+
+Selamat datang di Departemen Kominfo! Panduan ini akan membantu Anda memahami tanggung jawab Anda serta sistem yang akan Anda kelola.
+
+## Prasyarat
+
+Berikut adalah daftar singkat teknologi yang perlu dipelajari oleh staf baru Kominfo:
+
+## Teknologi Inti
+
+1. **Alat Pengembangan** 🛠️
+   - Git & GitHub (Gunakan git CLI, jangan malas)
+   - Node.js & npm
+   - VS Code
+
+2. **Backend & API** 🔧
+   - tRPC
+   - Prisma ORM
+   - NextAuth.js
+   - Konsep REST API
+
+3. **Database** 💾
+   - Dasar-dasar PostgreSQL
+   - CockroachDB
+   - Desain skema database
+
+4. **Frontend** 🎨
+   - React.js
+   - Next.js 14 (App Router)
+   - TypeScript
+   - TailwindCSS
+   - Shadcn/UI
+   - Framer Motion
+
+5. **Deployment & Infrastruktur** ☁️
+   - Vercel
+   - Manajemen DNS
+   - Environment Variables
+   - CNAME Records
+
+6. **Analitik & Monitoring** 📊
+   - PostHog
+
+7. **Dokumentasi** 📝
+   - Markdown/MDX
+   - Astro/Starlight
+   - JSDoc Comments
+
+## Tanggung Jawab Utama Anda
+
+Sebagai anggota staf di Kominfo, Anda akan bertanggung jawab untuk:
+
+1. **Ketersediaan Layanan**
+   - Memantau uptime situs web
+   - Menangani masalah teknis dengan cepat
+   - Memastikan semua layanan berjalan lancar
+
+2. **Akses & Keamanan**
+   - Mengelola tingkat akses pengguna
+   - Menjaga kredensial tetap aman
+   - Memantau masalah keamanan
+
+3. **Pembaruan Reguler**
+   - Melakukan pembaruan situs web
+   - Memperbarui konten jika diperlukan
+   - Memperbarui dependensi
+
+4. **Koordinasi Pengembangan**
+   - Bekerja dengan pengembang lain
+   - Meninjau perubahan kode
+   - Mengkoordinasikan perilisan fitur
+
+5. **Dokumentasi**
+   - Menjaga dokumentasi tetap terkini
+   - Mendokumentasikan perubahan sistem
+   - Mencatat keputusan teknis
+
+## Prosedur Harian
+
+### 1. Pemeliharaan Reguler
+- Melakukan backup mingguan
+- Memeriksa log sistem
+- Memantau laporan kesalahan
+- Memperbarui konten jika diperlukan
+
+### 2. Manajemen Masalah
+- Memantau masalah GitHub
+- Menanggapi laporan pengguna
+- Mengkoordinasikan perbaikan bug
+- Melacak permintaan fitur
+
+### 3. Komunikasi Tim
+- Menghadiri rapat tim
+- Memperbarui laporan kemajuan
+- Berkoordinasi dengan departemen lain
+- Mendokumentasikan keputusan
+
+## Manajemen Domain 🌐
+
+Domain kita `himarpl.com` dikelola melalui [Hostinger](https://www.hostinger.com) dan dideploy di [Vercel](https://vercel.com) menggunakan CNAME Records.
+
+### Subdomain Aktif
+
+Situs Utama:
+- [himarpl.com](https://himarpl.com) - Situs utama
+- [ascendia.himarpl.com](https://ascendia.himarpl.com) - Situs kabinet saat ini
+- [admin.himarpl.com](https://admin.himarpl.com) - Dasbor admin
+
+Layanan Mahasiswa:
+- [pmb.himarpl.com](https://pmb.himarpl.com) - Informasi mahasiswa baru
+- [mabim.himarpl.com](https://mabim.himarpl.com) - Situs orientasi
+
+Konten & Alat:
+- [blog.himarpl.com](https://blog.himarpl.com) - Platform blog staf
+- [docs.himarpl.com](https://docs.himarpl.com) - Dokumentasi teknis
+- [bot.himarpl.com](https://bot.himarpl.com) - Bot Telegram (Phoenix-chan)
+
+### Perencanaan Masa Depan
+
+Perhatikan perubahan yang akan datang ini:
+
+1. Transisi Situs Utama
+   - Saat ini: [www.himarpl.com](https://www.himarpl.com) (Kabinet Ascendia)
+   - Masa depan: Akan digunakan untuk kabinet 2024/2025
+
+2. Situs Orientasi
+   - Saat ini: [mabim.himarpl.com](https://mabim.himarpl.com)
+   - Masa depan: Pindah ke [mabim2024.himarpl.com](https://mabim2024.himarpl.com)
+
+3. Subdomain Acara
+   - [lomba.himarpl.com](https://lomba.himarpl.com) - Tersedia untuk acara mendatang
+   - Dapat menggunakan repo yang ada atau membuat yang baru sesuai kebutuhan
+
+## Input Data Staf Baru
+
+Ikuti langkah-langkah ini untuk menambahkan anggota staf baru:
+
+1. **Akses Panel Admin**
+   - Buka [admin.himarpl.com](https://admin.himarpl.com)
+   - Login menggunakan akun utama HIMARPL
+
+2. **Navigasi ke Bagian Staf**
+   - Buka bagian `Staff`
+   - Ubah periode ke tahun saat ini (misalnya, 2025)
+
+:::note[CATATAN]
+Jika tidak ada data untuk periode saat ini, Anda dapat menambahkannya secara manual menggunakan prisma studio.
+:::
+
+3. **Siapkan Gambar Staf**
+   - Unggah foto staf ke repositori [assets-himarpl](https://github.com/himarpl/assets-himarpl)
+   - Konversi tautan GitHub ke tautan CDN menggunakan [jsdelivr](https://www.jsdelivr.com/github)
+
+4. **Tambahkan Anggota Staf**
+   - Klik "Add New Staff"
+   - Isi detail staf
+   - Tempelkan tautan CDN jsdelivr di bidang `image`
+   - Simpan perubahan
+
+:::note[TIPS]
+Anda dapat merujuk data staf periode sebelumnya untuk melihat contoh data entri yang diformat dengan benar.
+:::
+
+## Bacaan Lebih Lanjut
+
+1. [Ringkasan Infrastruktur](/docs/overview/01-infrastructure)
+2. [Ringkasan Kumpulan Teknologi](/docs/overview/02-tech-stack)
+3. [Manajemen Konfigurasi & Rahasia](/docs/overview/03-configuration-secrets)
