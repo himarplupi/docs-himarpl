@@ -1,0 +1,91 @@
+---
+title: Pengantar Kumpulan Teknologi
+description: Tinjauan mendetail tentang pilihan teknologi dan arsitektur pada HIMARPL
+---
+
+Proyek HIMARPL dibangun menggunakan teknologi web modern, terutama berpusat pada T3 Stack. Berikut adalah rincian pilihan teknologi kami:
+
+## Teknologi Inti
+
+### Front-end (ReactJS)
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: TailwindCSS
+- **Komponen**: Shadcn/UI
+- **Animasi**: Framer Motion
+- **Pengambilan Data**: Tanstack React Query
+
+### T3 Stack (Midddle Stack)
+
+- **Bahasa**: TypeScript
+- **Framework**: Next.js
+- **Lapisan API**: tRPC
+- **ORM Database**:
+  - Prisma (Proyek utama)
+  - Drizzle (Proyek Bot)
+- **Otentikasi**: NextAuth.js
+
+### Backend (NextJS API Route)
+
+- **API Gateway**: NextJS API Routes
+- **Type Safety**: tRPC Router & Procedures
+- **Integrasi**: @tRPC Next
+- **Proxy**: Reverse proxy untuk analitik
+
+## Layanan Infrastruktur
+
+### Database
+
+- **Database Utama**: CockroachDB (Distributed SQL)
+- **Database Bot**: PostgreSQL (NeonDB)
+- **Caching**: Redis (Upstash)
+
+### Analitik & Pemantauan
+
+- **Analitik Pengguna**: Posthog
+
+### Deployment & Hosting
+
+- **Platform**: Vercel
+- **CI/CD**: GitHub Actions
+- **Edge Functions**: Vercel Edge Runtime
+
+## Stack Khusus Proyek
+
+### Proyek Utama
+
+(ascendia-himarpl, admin-himarpl, blog-himarpl, pmb-himarpl)
+
+- Implementasi penuh T3 Stack
+- Arsitektur three-layer lengkap
+- Integrasi layanan bersama
+
+### Proyek Ringan
+
+(lomba-himarpl, mabim-himarpl)
+
+- Implementasi Front-end only
+- NextJS + TailwindCSS
+
+### Proyek Bot
+
+(bot-himarpl)
+
+- T3 Stack dengan Drizzle ORM
+- Integrasi API Bot Telegram
+
+## Mengapa T3 Stack?
+
+Kami memilih T3 Stack ([create.t3.gg](https://create.t3.gg)) untuk proyek kami karena:
+
+1. **Type Safety**: Type Safety end-to-end dengan TypeScript
+2. **Pengalaman Pengembang**: DX yang luar biasa dengan alat modern
+3. **Kinerja**: Optimasi bawaan
+4. **Skalabilitas**: Arsitektur siap produksi
+5. **Fleksibilitas**: Dapat disesuaikan untuk kebutuhan proyek yang berbeda
+
+## Dokumentasi
+
+- **Framework**: Astro + Starlight
+- **Deployment**: Vercel
+- **Konten**: MDX
