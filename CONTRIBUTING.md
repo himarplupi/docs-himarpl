@@ -22,23 +22,54 @@ gh repo clone himarplupi/docs-himarpl # GitHub CLI
 
 2. Navigate to project directory:
 
-```bash
-cd docs-himarpl
-```
+   ```bash
+   cd docs-himarpl
+   ```
 
-3. Install dependencies:
+3. Create remote to keep your fork and local clone up to date.
 
-```bash
-npm ci
-```
+   ```bash
+   git remote add upstream git@github.com:himarplupi/docs-himarpl.git # SSH
+   git remote add upstream https://github.com/himarplupi/docs-himarpl.git # HTTPS
+   gh repo sync himarplupi/docs-himarpl # GitHub CLI
+   ```
 
-4. Start development server:
+4. Create a new branch for your changes.
 
-```bash
-npm run dev
-```
+   ```bash
+   git checkout -b your-branch-name
+   ```
 
-The documentation site should now be running at `http://localhost:4321`.
+5. Install dependencies:
+
+   ```bash
+   npm ci
+   ```
+
+6. Start development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   The documentation site should now be running at `http://localhost:4321`.
+
+7. Make your changes to the documentation.
+
+8. Merge your current branch with the upstream branch.
+
+   ```bash
+   git fetch upstream
+   git merge upstream/main
+   ```
+
+9. After you are satisfied with your changes, add and commit them to your branch, then push your branch to your fork.
+
+   ```bash
+   git add .
+   git commit # Follow the commit guidelines below
+   git push -u origin your-branch-name
+   ```
 
 ## Project Structure
 
@@ -50,19 +81,6 @@ Key directories:
 - `src/content/docs/id/` - Indonesian documentation
 - `src/assets/` - Images and other assets
 - `src/styles/` - Custom CSS styles
-
-## Making Changes
-
-1. Create a new branch for your changes:
-
-```bash
-git checkout -b my-feature-branch
-```
-
-2. Make your changes to the documentation
-3. Test your changes locally
-4. Commit your changes following our commit guidelines
-5. Push to your fork and submit a pull request
 
 ## Commit Guidelines
 
