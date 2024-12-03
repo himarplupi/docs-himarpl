@@ -1,0 +1,178 @@
+---
+title: Struktur Folder
+description: Struktur Folder Situs Web Ascendia Kabinet HIMARPL
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- prisma/ # Database management (Prisma ORM)
+  - schema.prisma # Database schema definitions and relationships
+- public/ # Static assets (images, fonts, etc.)
+- src/ # Main source code directory
+  - app/ # Next.js 13+ App Router directory
+    - api/ # API routes
+      - trpc/ # tRPC API configuration
+        - [trpc]/ # tRPC dynamic routes
+    - contact/ # Contact page feature
+      - page.tsx # Contact page component
+    - about/ # About section with dynamic routing
+      - [type]/ # Dynamic route for different types
+        - [department]/ # Nested dynamic route for departments
+          - page.tsx
+      - logo-philosophy/ # Logo philosophy section
+        - page.tsx
+    - dedication/ # Dedication page feature
+      - page.tsx
+    - news/ # News feature
+      - page.tsx
+    - page.tsx # Homepage
+    - layout.tsx # Root layout
+  - components/ # React components organized by feature
+    - about/ # About page components
+    - brand/ # Branding related components
+    - contact/ # Contact page components
+    - common/ # Shared components across features
+      - global-footer.tsx # Footer component
+    - dedication/ # Dedication page components
+    - logo-philosophy/ # Logo philosophy components
+    - motion/ # Animation components
+    - news/ # News feature components
+    - ui/ # Reusable UI components (shadcn/ui)
+  - hooks/ # Custom React hooks
+  - lib/ # Utility functions and shared logic
+    - utils.ts # General utility functions
+  - styles/ # Styling files
+    - globals.css # Global CSS styles
+  - server/ # Server-side code
+    - api/ # Server-side API implementations
+  - trpc/ # tRPC configurations and routers
+  - env.js # Environment variable validation (t3-env)
+</FileTree>
+
+## Penjelasan Struktur Direktori
+
+Proyek ini mengikuti arsitektur [T3 Stack](https://create.t3.gg/), yang menekankan _type-safety_ dan modularitas. Struktur dri atas menunjukkan susunan folder kami yang berbasis fitur, pemisahan kode klien/server yang jelas, dan mengikuti ketentuan Next.js App Router.
+
+### Direktori Utama
+
+- **prisma/**: Berisi _file_ yang berkaitan dengan basis data menggunakan Prisma ORM
+  - `schema.prisma`: Mendefinisikan model basis data, hubungan, dan konfigurasi
+- **public/**: Aset statis yang disajikan langsung
+  - Gambar, _font_, dan _resources_ publik lainnya
+- **src/**: Direktori _source code_ utama yang berisi semua kode aplikasi
+
+### Direktori Aplikasi (Next.js App Router)
+
+Direktori `app/` mengikuti ketentuan Next.js 13+ App Router:
+
+- **api/**: Rute API back-end
+  - `trpc/`: Konfigurasi dan _endpoint_ API tRPC
+- **Halaman berbasis fitur**: Setiap fitur utama memiliki direktori sendiri
+  - `about/`, `contact/`, `news/`, dll.
+  - Masing-masing berisi `page.tsx` untuk _view_ utama
+- **Rute Dinamis**: Menggunakan _routing_ berbasis _file_ Next.js
+  - `[type]/`: Rute dinamis untuk berbagai jenis departemen
+  - `[department]/`: Rute dinamis yang bersifat _nested_ untuk halaman departemen
+
+### Direktori Komponen
+
+Komponen disusun berdasarkan fitur dan tanggung jawab:
+
+- **Komponen Fitur**: Dikelompokkan berdasarkan fitur
+  - `about/`: Komponen khusus halaman _about_
+  - `contact/`: Komponen halaman _contact_
+  - `news/`: Komponen fitur _news_
+  
+- **Komponen Umum**: Dipakai pada seluruh fitur
+  - `common/`: Komponen global seperti _header_ dan _footer_
+  - `motion/`: Komponen animasi dan transisi
+  - `ui/`: Komponen UI yang dapat digunakan kembali (menggunakan shadcn/ui)
+    - Tombol, formulir, modal, dll.
+    - Konfigurasi tema dan komponen dasar
+
+### Direktori Inti
+
+- **hooks/**: _Custom React hooks_ untuk logika bersama
+- **lib/**: Utilitas inti dan logika bersama
+  - Pembantu otentikasi
+  - Utilitas umum
+  - Definisi dari _type_
+- **server/**: Kode khusus pada sisi server
+  - Implementasi API
+  - Utilitas server
+- **trpc/**: Konfigurasi dan _router_ tRPC
+  - Definisi rute API
+  - Prosedur _type-safe_
+
+### Styles
+
+- **styles/**: Konfigurasi _styling_ global
+  - `globals.css`: _Style_ CSS global, konfigurasi Tailwind, dan konfigurasi tema Shadcn/UI
+
+
+## Mengimpor File
+
+Untuk mengimpor _file_, Anda dapat menggunakan alias `@/`. Alias ini dikonfigurasi secara otomatis dalam proyek.
+
+```tsx title="src/app/news/page.tsx"
+import { FadeIn } from "@/components/motion/fade-in";
+import { MotionText } from "@/components/motion/motion-text";
+import { UnderlineHover } from "@/components/motion/underline-hover";
+import { NewsCard } from "@/components/news/news-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
+import { abbreviation, cn, momentId } from "@/lib/utils";
+import { api } from "@/trpc/server";
+```
+
+Pendekatan ini sangat berguna ketika Anda bekerja pada proyek besar dengan banyak _file_ dan _folder_ dan dapat dilakukan dengan memperbarui _file_ tsconfig.json menjadi berikut:
+
+<details> 
+<summary>Konfigurasi Typescript</summary>
+
+```diff lang="json" title="tsconfig.json" 
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+
+    /* Bundled projects */
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "incremental": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
++    "paths": {
++      "@/*": ["./src/*"]
++    }
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "lint-staged.config.js", "commitlint.config.js"]
+}
+```
+</details>

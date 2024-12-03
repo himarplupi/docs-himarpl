@@ -1,0 +1,123 @@
+---
+title: Environment Variables dan Konfigurasinya
+description: Belajar bagaimana cara mengatur environment variables dan konfigurasi lainnya pada proyek situs web milik Ascendia HIMARPL.
+---
+
+Mengelola _environment variables_ dalam proyek kami adalah hal yang penting, namun juga menantang. Proyek ini menggunakan _environment variables_ untuk manajemen konfigurasi, memanfaatkan [t3-env](https://github.com/t3-oss/t3-env) untuk _environment variables_ yang _type-safe_ dengan _runtime validation_. Ketika Anda menambahkan _environment variables_ baru, Anda perlu memperbarui _file_ `.env.example` dan _file_ `src/env.js` untuk memastikan semuanya berjalan dengan benar.
+
+## File Konfigurasi
+
+### 1. Skema Environment (`src/env.js`)
+
+_File_ `env.js` mendefinisikan skema dan aturan validasi untuk semua _environment variables_ menggunakan Zod. Ini dibagi menjadi tiga bagian utama:
+
+```javascript title="src/env.js"
+export const env = createEnv({
+  // Server-side variables
+  server: {
+    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    BASE_URL: z.string().url(),
+    BASE_PATH: z.string().optional(),
+  },
+
+  // Client-side variables (must be prefixed with NEXT_PUBLIC_)
+  client: {
+    NEXT_PUBLIC_POSTHOG_KEY: z.string(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().url(),
+  },
+
+  // Runtime environment mapping
+  runtimeEnv: {
+    // ... variable mappings
+    DATABASE_URL: process.env.DATABASE_URL,
+    NODE_ENV: process.env.NODE_ENV,
+    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL
+      ? process.env.NEXT_PUBLIC_BASE_URL
+      : process.env.NEXT_PUBLIC_VERCEL_URL
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : "https://himarpl.com",
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH || "",
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  }
+});
+```
+
+### 2. File Environment (`.env`)
+
+Buat _file_ `.env` pada _root_ utama proyek dengan _values_ yang spesifik pada _environment_ Anda:
+
+```bash
+# Database Configuration
+DATABASE_URL="your-database-url"
+
+# Base URL Configuration
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+NEXT_PUBLIC_BASE_PATH=""
+
+# PostHog Analytics
+NEXT_PUBLIC_POSTHOG_KEY="your-posthog-key"
+NEXT_PUBLIC_POSTHOG_HOST="https://us.i.posthog.com"
+```
+
+## Fitur Utama
+
+- **Type-Safety**: Semua _environment variables_ divalidasi saat _build_ dan _runtime_
+- **Runtime Validation**: Memastikan aplikasi Anda tidak dibangun dengan _environment variables_ yang tidak valid
+- **Keamanan Client-Side**: Pemisahan yang jelas antara server dan variabel klien
+- **Nilai Default**: Cadangan untuk variabel tertentu ketika tidak disebutkan
+- **Penanganan String Kosong**: String kosong diperlakukan sebagai _undefined_ secara _default_
+
+## Panduan Penggunaan
+
+1. **Variabel Server-Side**:
+   - Diakses menggunakan `env.VARIABLE_NAME`
+   - Tidak pernah diekspos ke klien
+   - Contoh: `env.DATABASE_URL`
+
+2. **Variabel Client-Side**:
+   - Harus diawali dengan `NEXT_PUBLIC_`
+   - Dapat diakses di kode server dan klien
+   - Contoh: `env.NEXT_PUBLIC_POSTHOG_KEY`
+
+3. **Pengembangan**:
+   - Buat _file_ `.env` lokal berdasarkan `.env.example`
+   - Jangan pernah melakukan _commit_ `.env` ke _version control_
+   - Perbarui skema `env.js` saat menambahkan variabel baru
+
+
+## Contoh Penggunaan
+
+```javascript title="src/server/db.ts" {1, 7, 16}
+import { env } from "@/env";
+import { PrismaClient } from "@prisma/client";
+
+const createPrismaClient = () =>
+  new PrismaClient({
+    log:
+      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+  });
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined;
+};
+
+export const db = globalForPrisma.prisma ?? createPrismaClient();
+
+if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+
+```
+
+Anda dapat mengakses _environment variables_ pada kode seperti ini:
+
+```javascript
+import { env } from "@/env.js";
+
+// Server-side usage
+const dbUrl = env.DATABASE_URL;
+
+// Client-side usage
+const posthogKey = env.NEXT_PUBLIC_POSTHOG_KEY;
+```

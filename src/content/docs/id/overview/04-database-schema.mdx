@@ -1,21 +1,39 @@
 ---
+<<<<<<< HEAD
 title: Skema Database
 description: Panduan skema database untuk infrastruktur cloud HIMARPL
 ---
 
 HIMARPL menggunakan dua database untuk tujuan yang berbeda:
+=======
+title: Skema Basis Data
+description: Panduan skema basis data untuk infrastruktur cloud HIMARPL
+---
+
+HIMARPL menggunakan dua basis data untuk tujuan yang berbeda:
+>>>>>>> ascendia-himarpl
 
 1. **CockroachDB** dengan Prisma ORM - Untuk proyek inti dan infrastruktur utama
 2. **PostgreSQL** (NeonDB) dengan Drizzle ORM - Untuk fungsionalitas bot
 
+<<<<<<< HEAD
 ## Struktur Inti Database
 
 ![Class Diagram Database Inti](../../../../assets/diagrams/cockroach-db-class-diagram.png)
+=======
+## Struktur Inti Basis Data
+
+![Class Diagram Basis Data Inti](../../../../assets/diagrams/cockroach-db-class-diagram.png)
+>>>>>>> ascendia-himarpl
 
 ### Class Utama
 
 :::note[Skema Prisma]
+<<<<<<< HEAD
 Jika Anda ingin mengintegrasikan proyek baru Anda dengan database, Anda dapat menggunakan Skema Prisma di bawah ini.
+=======
+Jika Anda ingin mengintegrasikan proyek baru Anda dengan basis data, Anda dapat menggunakan Skema Prisma di bawah ini.
+>>>>>>> ascendia-himarpl
 
 <details>
 <summary>Lihat Lengkap Skema Prisma</summary>
@@ -169,11 +187,19 @@ model VerificationToken {
 
   - Informasi inti profil pengguna (nama, email, bio, posisi)
   - Dapat menjadi anggota satu departemen
+<<<<<<< HEAD
   - Memiliki role-based akses (admin/anggota)
   - Melacak periode keterlibatan dan aktivitas login
 
 - **Otentikasi**
   - **Akun**: Menangani koneksi OAuth (misalnya, login Google)
+=======
+  - Memiliki _role-based_ akses (admin/anggota)
+  - Melacak periode keterlibatan dan aktivitas _login_
+
+- **Otentikasi**
+  - **Akun**: Menangani koneksi OAuth (misalnya, _login_ Google)
+>>>>>>> ascendia-himarpl
   - **Sesi**: Mengelola sesi pengguna aktif
   - **Token Verifikasi**: Untuk verifikasi email
 
@@ -182,13 +208,21 @@ model VerificationToken {
 - **Postingan**
 
   - Artikel blog dan entri konten
+<<<<<<< HEAD
   - Berisi metadata (judul, slug, gambar)
+=======
+  - Berisi metadata (judul, _slug_, gambar)
+>>>>>>> ascendia-himarpl
   - Melacak status dan tanggal publikasi
   - Setiap postingan memiliki satu penulis (Pengguna)
 
 - **Tag Postingan**
   - Kategorisasi konten hierarkis
+<<<<<<< HEAD
   - Dapat memiliki hubungan parent-child
+=======
+  - Dapat memiliki hubungan _parent-child_
+>>>>>>> ascendia-himarpl
   - Digunakan untuk mengatur postingan berdasarkan topik
 
 #### 3. Struktur Organisasi
@@ -214,9 +248,15 @@ model VerificationToken {
 
 2. **Organisasi Konten**
 
+<<<<<<< HEAD
 - Postingan dapat memiliki beberapa tag
 - Tag dapat memiliki hubungan parent-child
 - Postingan memiliki slug unik per penulis
+=======
+- Postingan dapat memiliki beberapa _tag_
+- _Tag_ dapat memiliki hubungan _parent-child_
+- Postingan memiliki _slug_ unik per penulis
+>>>>>>> ascendia-himarpl
 
 3. **Organisasi**
 
@@ -226,8 +266,13 @@ model VerificationToken {
 
 ### Prinsip Desain Skema Prisma
 
+<<<<<<< HEAD
 - Type-safe dengan enum yang ditentukan
 - Foreign-key Constraints yang tepat
+=======
+- _Type-safe_ dengan _enum_ yang ditentukan
+- _Foreign-key Constraints_ yang tepat
+>>>>>>> ascendia-himarpl
 - Dapat dikembangkan untuk ekspansi di masa depan
 - Hubungan hierarkis yang jelas
 
@@ -236,14 +281,22 @@ model VerificationToken {
 - Gunakan PascalCase untuk semua model
 - Gunakan camelCase untuk semua atribut
 
+<<<<<<< HEAD
 ## Struktur Database Bot
+=======
+## Struktur Basis Data Bot
+>>>>>>> ascendia-himarpl
 
 Bot menggunakan PostgreSQL (NeonDB) dengan Drizzle ORM untuk mengelola notifikasi dan interaksi pengguna.
 
 ### Kelas Utama
 
 :::note[Skema Drizzle]
+<<<<<<< HEAD
 Jika Anda ingin mengintegrasikan proyek baru Anda dengan database, Anda dapat menggunakan Skema Drizzle di bawah ini.
+=======
+Jika Anda ingin mengintegrasikan proyek baru Anda dengan basis data, Anda dapat menggunakan Skema Drizzle di bawah ini.
+>>>>>>> ascendia-himarpl
 
 <details>
 <summary>Lihat Skema Drizzle Lengkap</summary>
@@ -293,6 +346,7 @@ export const notifications = createTable(
 
 **Kolom Kunci:**
 
+<<<<<<< HEAD
 - `chatId`: Pengidentifikasi unik untuk Telegram Chat (primary key)
 - `firstName`: Nama depan pengguna dari Telegram
 - `lastName`: Nama belakang pengguna dari Telegram
@@ -311,6 +365,26 @@ export const notifications = createTable(
 
 - Menggunakan prefix tabel untuk isolasi multi-proyek
 - Menerapkan type PostgreSQL yang tepat
+=======
+- `chatId`: Pengidentifikasi unik untuk Telegram Chat (_primary key_)
+- `firstName`: Nama depan pengguna dari Telegram
+- `lastName`: Nama belakang pengguna dari Telegram
+- `username`: Nama pengguna Telegram
+- `createdAt`: _Timestamp_ pembuatan obrolan
+- `notifying`: _Array_ dari topik notifikasi yang diikuti pengguna
+
+**Detail Teknis:**
+
+- Menggunakan _type_ spesifik PostgreSQL (bigserial, varchar, timestamp)
+- Termasuk pengindeksan pada chatId untuk pencarian lebih cepat
+- Menerapkan _timestamp_ yang beradaptasi dengan zona waktu
+- Menggunakan _type array_ untuk preferensi notifikasi
+
+### Prinsip Desain Skema Drizzle
+
+- Menggunakan _prefix_ tabel untuk isolasi multi-proyek
+- Menerapkan _type_ PostgreSQL yang tepat
+>>>>>>> ascendia-himarpl
 - Termasuk optimasi kinerja melalui pengindeksan
 - Mengikuti studi kasus terbaik dari Drizzle ORM
 
