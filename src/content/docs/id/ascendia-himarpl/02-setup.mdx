@@ -1,0 +1,146 @@
+---
+title: Konfigurasi Pengembangan Lokal
+description: Bagaimana cara untuk melakukan konfigurasi website Kabinet Ascendia HIMARPL untuk pengembangan lokal
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Steps } from "@astrojs/starlight/components";
+import { Code } from "@astrojs/starlight/components";
+
+Panduan ini akan memandu Anda melalui pengaturan _environment_ pengembangan lokal untuk situs web Ascendia Cabinet HIMARPL.
+
+## Prasyarat
+
+Sebelum menginstal aplikasi, pastikan Anda memiliki:
+
+1. [Node.js](https://nodejs.org/en) dan [npm](https://www.npmjs.com/) terinstal
+2. [Git](https://git-scm.com/) terinstal
+3. Akses ke layanan berikut:
+  - Akun CockroachDB
+  - Akun PostHog (opsional)
+
+## Detail Pengaturan Lingkungan
+
+Proyek ini memerlukan beberapa _environment variable_ yang harus diatur dalam _file_ `.env` agar berfungsi dengan baik.
+
+### Pengaturan CockroachDB
+
+Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart) untuk mendapatkan `DATABASE_URL` Anda.
+
+## Langkah-langkah Pengaturan
+
+<Steps>
+
+1. _Fork_ dan _clone_ repositorinya:
+
+   <Tabs>
+     <TabItem label="HTTPS">
+       <Code
+         code={`git clone https://github.com/himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="HTTPS"
+       />
+     </TabItem>
+     <TabItem label="SSH">
+       <Code
+         code={`git clone git@github.com:himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="SSH"
+       />
+     </TabItem>
+     <TabItem label="GitHub CLI">
+       <Code
+         code={`gh repo clone himarplupi/ascendia-himarpl`}
+         lang="bash"
+         title="GitHub CLI"
+       />
+     </TabItem>
+   </Tabs>
+
+2. Lakukan navigasi ke direktori proyek:
+
+   ```bash
+   cd ascendia-himarpl
+   ```
+
+3. Buat _file_ _environment variables_:
+   Buat file `.env` pada direktori utama dengan _variables_ berikut:
+
+   ```bash
+   DATABASE_URL=
+   NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+   NEXT_PUBLIC_BASE_PATH=""
+   NEXT_BASE_URL="http://localhost:3000"
+   NEXT_PUBLIC_POSTHOG_KEY=
+   NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+   ```
+
+4. Atur _remote_ _upstream_:
+
+   <Tabs>
+     <TabItem label="HTTPS">
+       <Code
+         code={`git remote add upstream https://github.com/himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="HTTPS"
+       />
+     </TabItem>
+     <TabItem label="SSH">
+       <Code
+         code={`git remote add upstream git@github.com:himarplupi/ascendia-himarpl.git`}
+         lang="bash"
+         title="SSH"
+       />
+     </TabItem>
+     <TabItem label="GitHub CLI">
+       <Code
+         code={`gh repo sync himarplupi/ascendia-himarpl`}
+         lang="bash"
+         title="GitHub CLI"
+       />
+     </TabItem>
+   </Tabs>
+
+5. Unduh dependensi dan mulai server pengembangannya:
+
+   ```bash
+   npm ci              # Install dependencies
+   npm run db:push     # Push database schema to CockroachDB
+   npm run dev         # Start development server
+   ```
+
+   Sekarang, aplikasinya seharusnya berjalan pada `http://localhost:3000`.
+
+6. Buat _branch_ baru untuk perubahan yang Anda lakukan
+
+   ```bash
+   git checkout -b my-feature-branch
+   ```
+
+
+7. Setelah Anda puas dengan perubahannya, _add_ dan _commit_ perubahan tersebut pada _branch_ Anda, kemudian _push_ _branch_ Anda ke repositori _fork_.
+
+   ```bash
+   git add .
+   git commit # Please follow the commit guidelines below   
+   git push -u origin my-feature-branch
+   ```
+
+   :::note[IMPORTANT]
+    Sebelum melakukan _commit_ dan membuka _Pull Request_, tolong baca [Commit Guidelines](/getting-started/05-contribution-guide/#commit-guidelines) dan [Pull Request Policy](/getting-started/05-contribution-guide/#pull-request-policy) berikut.
+   :::
+
+8. Buat _Pull Request_.
+   :::note[NOTE]
+    Kami mengimbau kepada pembuat PR untuk menghindari _rebasing_/memperbarui PR Anda dengan `main` _branch_ secara tidak perlu.
+   :::
+</Steps>
+
+## Perintah yang tersedia
+
+- `npm run dev` - Memulai server pengembangan dengan _hot reload_
+- `npm run build` - Membuat _build_ produksi
+- `npm run start` - Memulai server produksi
+- `npm run db:push` - Mendorong skema basis data ke CockroachDB
+- `npm run db:studio` - Membuka Prisma Studio untuk manajemen basis data
+- `npm run lint` - Menjalankan pemeriksaan _linting_

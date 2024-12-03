@@ -1,0 +1,107 @@
+---
+title: Peraturan dan Ketentuan
+description: Mempelajari tentang aturan dan ketentuan yang digunakan dalam proyek situs web milik Ascendia HIMARPL.
+---
+
+Untuk menegakkan gaya kode yang konsisten dan menghindari masalah umum dalam basis kode, kami memiliki serangkaian aturan dan ketentuan yang kami ikuti dan terapkan di seluruh proyek.
+
+## Typescript
+
+Pengantar ini menggunakan TypeScript untuk menyediakan _type-safety_ dan menghindari _bug_ umum dalam basis kode. Konfigurasi proyek didasarkan pada T3 Stack dengan beberapa pembaruan.
+
+Jika Anda belum familiar dengan TypeScript, Anda bisa memeriksa artikel ini untuk mempelajari lebih lanjut : [Typescript for React Developers](https://elazizi.com/posts/how-to-learn-typescript-for-react-developers/)
+
+Anda bisa menemukan informasi lebih lanjut [di sini](https://create.t3.gg/en/usage/typescript).
+
+## Penamaan
+
+Kami mengikuti kabab-case untuk penamaan _file_ dan _folder_ karena kami pikir itu adalah cara paling mudah untuk dibaca dan konsisten untuk menamai _file_ dan _folder_ dalam proyek besar, serta merupakan cara paling umum untuk menamai _file_ dan _folder_ di komunitas React.
+
+Contoh penamaan kabab-case: `my-component.tsx`
+
+Untuk penamaan variabel, _function_, _class_, _interface_, dan _enum_, kami menggunakan camelCase karena itu adalah cara yang paling umum untuk menamai variabel di komunitas React.
+
+Contoh penamaan camelCase: `const myFunction = () => {}`
+
+
+## Linting
+
+Menggunakan _linter_ adalah keharusan dalam proyek JavaScript mana pun. Untuk memulainya, kami menggunakan ESLint dengan konfigurasi T3 Stack dan beberapa aturan khusus untuk memastikan bahwa kami mengikuti aturan dan ketentuan terkait penamaan _file_, _class_ pada Tailwind CSS, _type_ pada TypeScript, urutan impor, dan lainnya.
+
+Berikut adalah _file_ konfigurasi ESLint lengkap:
+
+```javascript title="eslintrc.cjs"
+/** @type {import("eslint").Linter.Config} */
+const config = {
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: true,
+  },
+  plugins: ["@typescript-eslint", "unused-imports", "simple-import-sort"],
+  extends: [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
+    "prettier",
+  ],
+  rules: {
+    // These opinionated rules are enabled in stylistic-type-checked above.
+    // Feel free to reconfigure them to your own preference.
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+
+    "simple-import-sort/imports": [
+      "error",
+      {
+        groups: [
+          // `react` first, `next` second, then packages starting with a character
+          ["^react$", "^next", "^[a-z]"],
+          // Packages starting with `@`
+          ["^@"],
+          // Packages starting with `~`
+          ["^~"],
+          // Imports starting with `../`
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Imports starting with `./`
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          // Style imports
+          ["^.+\\.s?css$"],
+          // Side effect imports
+          ["^\\u0000"],
+        ],
+      },
+    ],
+    "simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
+
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "error",
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrorsIgnorePattern: "^_",
+      },
+    ],
+
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+      },
+    ],
+
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: { attributes: false },
+      },
+    ],
+  },
+};
+
+module.exports = config;
+```
