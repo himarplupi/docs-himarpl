@@ -3,7 +3,7 @@ title: Pengantar Infrastruktur
 description: Panduan untuk Infrastruktur Cloud dan Arsitektur Teknis pada HIMARPL
 ---
 
-HIMARPL memanfaatkan infrastruktur cloud modern untuk membangun aplikasi yang handal, dapat ditingkatkan, dan mudah dipelihara.
+HIMARPL memanfaatkan infrastruktur _cloud_ modern untuk membangun aplikasi yang handal, dapat ditingkatkan, dan mudah dipelihara.
 
 ## Proyek Inti
 
@@ -25,27 +25,27 @@ Setiap proyek menerapkan arsitektur tiga lapisan:
 
 UI modern dibangun dengan:
 
-- 🎨 [TailwindCSS](https://tailwindcss.com/) - Styling berbasis utilitas
+- 🎨 [TailwindCSS](https://tailwindcss.com/) - _Styling_ berbasis utilitas
 - 🧩 [Shadcn/UI](https://ui.shadcn.com/docs) - Komponen yang dapat digunakan kembali
 - ✨ [Motion](https://motion.dev) - Animasi halus
 - 🔄 [Tanstack Query](https://tanstack.com/query) - Pengambilan data
 
 #### 2. Lapisan Tengah ([T3 Stack](https://create.t3.gg/))
 
-Integrasi type-safe backend menggunakan:
+Integrasi _type-safe_ _back-end_ menggunakan:
 
-- [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [Next.js](https://nextjs.org/) - Kerangka kerja React
-- [tRPC](https://trpc.io/) - API dengan type-safe end-to-end
+- [TypeScript](https://www.typescriptlang.org/) - _Type-Safety_
+- [Next.js](https://nextjs.org/) - _Framework_ React
+- [tRPC](https://trpc.io/) - API dengan _type-safe end-to-end_
 - [Prisma](https://www.prisma.io/) - ORM basis data
 - [NextAuth](https://next-auth.js.org/) - Otentikasi
 
-#### 3. Lapisan Backend (Next.js API Routes)
+#### 3. Lapisan Back-end (Next.js API Routes)
 
-Logika server-side dengan:
+Logika _server-side_ dengan:
 
-- Proxy analitik ([Integrasi PostHog](https://posthog.com/docs/advanced/proxy/nextjs))
-- [tRPC Router](https://trpc.io/docs/server/routers) - Endpoint API
+- _Proxy_ analitik ([Integrasi PostHog](https://posthog.com/docs/advanced/proxy/nextjs))
+- [tRPC Router](https://trpc.io/docs/server/routers) - _Endpoint_ API
 - [tRPC Procedures](https://trpc.io/docs/server/procedures) - Logika bisnis
 - [@tRPC Next](https://trpc.io/docs/nextjs) - Integrasi Next.js
 
@@ -56,18 +56,18 @@ Layanan inti yang digunakan di semua proyek:
 #### Basis Data ([CockroachDB](https://www.cockroachlabs.com/))
 
 - Basis data SQL terdistribusi
-- Menangani cross-project data 
+- Menangani _cross-project_ data 
 
 #### Analitik ([PostHog](https://posthog.com/))
 
-- Pelacakan user behavior
+- Pelacakan _user behavior_
 - Pemantauan kinerja
 - Analitik terpusat
 
 #### Rate Limiting ([Upstash](https://upstash.com/))
 
-- Rate limiting berbasis Redis
-- Rate limiting API
+- _Rate limiting_ berbasis Redis
+- _Rate limiting_ API
 
 ## Proyek Khusus Acara
 
@@ -79,7 +79,7 @@ Kami memelihara proyek ringan untuk acara dan kebutuhan sementara:
 - `lomba-himarpl` - Situs web kompetisi
 - `mabim-himarpl` - Situs web orientasi mahasiswa
 
-Ini menggunakan teknologi front-end only yang disederhanakan:
+Ini menggunakan teknologi _front-end only_ yang disederhanakan:
 
 - Next.js + React
 - Styling TailwindCSS
@@ -124,16 +124,16 @@ Bot Telegram kami menggunakan arsitektur khusus:
 
 Proyek Vercel baru memerlukan pengaturan GitHub Actions secara manual:
 
-1. Buat repo GitHub di [HIMARPL UPI](https://github.com/himarplupi)
+1. Buat repositori GitHub di [HIMARPL UPI](https://github.com/himarplupi)
 2. Buat proyek Vercel (gunakan akun GitHub HIMARPL utama, bukan organisasi)
-3. Dapatkan deployment token Vercel
+3. Dapatkan _deployment token_ Vercel
 4. Atur GitHub Actions
 
 [Lihat panduan pengaturan](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)
 :::
 
-Kami menggunakan [Vercel](https://vercel.com/) untuk Deployment dengan:
+Kami menggunakan [Vercel](https://vercel.com/) untuk _Deployment_ dengan:
 
-- 🚀 Produksi Deployment yang otomatis
-- 🔍 Pratinjau Deployment untuk PR
+- 🚀 Produksi _Deployment_ yang otomatis
+- 🔍 Pratinjau _Deployment_ untuk PR (_Pull Request_)
 - ⚡️ Dukungan Edge Functions
