@@ -1,13 +1,13 @@
 ---
 title: Konfigurasi Pengembangan Lokal
-description: Bagaimana cara untuk melakukan konfigurasi situs web Kabinet Ascendia HIMARPL untuk pengembangan lokal
+description: Bagaimana cara melakukan konfigurasi situs web Blog HIMARPL untuk pengembangan lokal
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { Steps } from "@astrojs/starlight/components";
 import { Code } from "@astrojs/starlight/components";
 
-Panduan ini akan memandu Anda melalui pengaturan _environment_ pengembangan lokal untuk situs web Ascendia Cabinet HIMARPL.
+Panduan ini akan memandu Anda dalam menyiapkan _environment_ pengembangan lokal untuk situs web Blog HIMARPL.
 
 ## Prasyarat
 
@@ -16,18 +16,37 @@ Sebelum menginstal aplikasi, pastikan Anda memiliki:
 1. [Node.js](https://nodejs.org/en) dan [npm](https://www.npmjs.com/) terinstal
 2. [Git](https://git-scm.com/) terinstal
 3. Akses ke layanan berikut:
-  - Akun CockroachDB
-  - Akun PostHog (opsional)
+   - Akun CockroachDB
+   - Kredensial Google OAuth
+   - Akun Upstash
+   - Akun PostHog (opsional)
 
-## Detail Pengaturan Lingkungan
 
-Proyek ini memerlukan beberapa _environment variable_ yang harus diatur dalam _file_ `.env` agar berfungsi dengan baik.
+## Detail Konfigurasi Environment
 
-### Pengaturan CockroachDB
+Proyek ini memerlukan beberapa _environment variable_ yang harus disetel dalam _file_ `.env` agar berfungsi dengan baik:
 
-Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart) untuk mendapatkan `DATABASE_URL` Anda.
+### Konfigurasi Layanan yang Dibutuhkan
 
-## Langkah-langkah Pengaturan
+1. **Konfigurasi CockroachDB**
+   - Ikuti [Panduan Quickstart CockroachDB](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart) untuk mendapatkan `DATABASE_URL` Anda
+
+2. **Konfigurasi Google OAuth**
+   - Ikuti [Panduan Google OAuth](https://developers.google.com/identity/protocols/oauth2) untuk mendapatkan:
+     - `GOOGLE_CLIENT_ID`
+     - `GOOGLE_CLIENT_SECRET`
+
+3. **Konfigurasi Pembatasan Laju Upstash**
+   - Ikuti [Panduan Pembatasan Laju Upstash](https://upstash.com/docs/oss/sdks/ts/ratelimit/gettingstarted) untuk mendapatkan:
+     - `UPSTASH_REDIS_REST_URL`
+     - `UPSTASH_REDIS_REST_TOKEN`
+
+4. **Konfigurasi Bot API (opsional)**
+   - Ikuti [Panduan Bot API](/bot-himarpl/01-overview) untuk mendapatkan:
+     - `BOT_API_URL`
+     - `BOT_API_TOKEN`
+
+## Langkah Konfigurasi
 
 <Steps>
 
@@ -36,43 +55,61 @@ Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcl
    <Tabs>
      <TabItem label="HTTPS">
        <Code
-         code={`git clone https://github.com/himarplupi/ascendia-himarpl.git`}
+         code={`git clone https://github.com/himarplupi/blog-himarpl.git`}
          lang="bash"
          title="HTTPS"
        />
      </TabItem>
      <TabItem label="SSH">
        <Code
-         code={`git clone git@github.com:himarplupi/ascendia-himarpl.git`}
+         code={`git clone git@github.com:himarplupi/blog-himarpl.git`}
          lang="bash"
          title="SSH"
        />
      </TabItem>
      <TabItem label="GitHub CLI">
        <Code
-         code={`gh repo clone himarplupi/ascendia-himarpl`}
+         code={`gh repo clone himarplupi/blog-himarpl`}
          lang="bash"
          title="GitHub CLI"
        />
      </TabItem>
    </Tabs>
 
-2. Lakukan navigasi ke direktori proyek:
+2. Navigasi ke direktori proyek:
 
    ```bash
-   cd ascendia-himarpl
+   cd blog-himarpl
    ```
 
 3. Buat _file_ _environment variables_:
    Buat file `.env` pada direktori utama dengan _variables_ berikut:
 
    ```bash
-   DATABASE_URL=
    NEXT_PUBLIC_BASE_URL="http://localhost:3000"
    NEXT_PUBLIC_BASE_PATH=""
    NEXT_BASE_URL="http://localhost:3000"
+
+   # Database
+   DATABASE_URL=
+
+   # Authentication
+   NEXTAUTH_SECRET=
+   NEXTAUTH_URL="http://localhost:3000"
+   GOOGLE_CLIENT_ID=
+   GOOGLE_CLIENT_SECRET=
+
+   # Rate Limiting
+   UPSTASH_REDIS_REST_URL=
+   UPSTASH_REDIS_REST_TOKEN=
+
+   # PostHog (optional)
    NEXT_PUBLIC_POSTHOG_KEY=
    NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+
+   # Bot API (optional)
+   BOT_API_URL=
+   BOT_API_TOKEN=
    ```
 
 4. Atur _remote_ _upstream_:
@@ -80,21 +117,21 @@ Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcl
    <Tabs>
      <TabItem label="HTTPS">
        <Code
-         code={`git remote add upstream https://github.com/himarplupi/ascendia-himarpl.git`}
+         code={`git remote add upstream https://github.com/himarplupi/blog-himarpl.git`}
          lang="bash"
          title="HTTPS"
        />
      </TabItem>
      <TabItem label="SSH">
        <Code
-         code={`git remote add upstream git@github.com:himarplupi/ascendia-himarpl.git`}
+         code={`git remote add upstream git@github.com:himarplupi/blog-himarpl.git`}
          lang="bash"
          title="SSH"
        />
      </TabItem>
      <TabItem label="GitHub CLI">
        <Code
-         code={`gh repo sync himarplupi/ascendia-himarpl`}
+         code={`gh repo sync himarplupi/blog-himarpl`}
          lang="bash"
          title="GitHub CLI"
        />
@@ -138,9 +175,11 @@ Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcl
 
 ## Perintah yang tersedia
 
-- `npm run dev` - Memulai server pengembangan dengan _hot reload_
+- `npm run dev` - Memulai server pengembangan dengan Turbo
 - `npm run build` - Membuat _build_ produksi
 - `npm run start` - Memulai server produksi
 - `npm run db:push` - Mendorong skema basis data ke CockroachDB
 - `npm run db:studio` - Membuka Prisma Studio untuk manajemen basis data
 - `npm run lint` - Menjalankan pemeriksaan _linting_
+- `npm run test` - Menjalankan tes Jest
+- `npm run test:watch` - Menjalankan tes Jest dalam mode _watch_
