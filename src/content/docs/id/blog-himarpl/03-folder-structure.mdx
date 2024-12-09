@@ -1,92 +1,96 @@
 ---
 title: Struktur Folder
-description: Struktur Folder Situs Web Kabinet Ascendia HIMARPL
+description: Struktur Folder Situs Web Blog HIMARPL
 ---
 
 import { FileTree } from '@astrojs/starlight/components';
 
 <FileTree>
 - prisma/ # Database management (Prisma ORM)
-  - schema.prisma # Database schema definitions and relationships
-- public/ # Static assets (images, fonts, etc.)
+  - schema.prisma # Database schema definitions
+  - seed.js # Database seeding script
+- public/
 - src/ # Main source code directory
-  - app/ # Next.js 13+ App Router directory
+  - app/ # Next.js 14 App Router
+    - [username]/ # Dynamic user profile routes
     - api/ # API routes
       - trpc/ # tRPC API configuration
-        - [trpc]/ # tRPC dynamic routes
-    - contact/ # Contact page feature
-      - page.tsx # Contact page component
-    - about/ # About section with dynamic routing
-      - [type]/ # Dynamic route for different types
-        - [department]/ # Nested dynamic route for departments
-          - page.tsx
-      - logo-philosophy/ # Logo philosophy section
-        - page.tsx
-    - dedication/ # Dedication page feature
-      - page.tsx
-    - news/ # News feature
-      - page.tsx
+    - explore-tags/ # Explore tags page
+    - login/ # Login page
+    - me/ # Current user dashboard
+    - new/ # Route for creating a new post
+    - register/ # Register page
+    - search/ # Search functionality
+    - tag/ # Tags page
+      - [tag-slug]/ # Dynamic tag routes
     - page.tsx # Homepage
     - layout.tsx # Root layout
-  - components/ # React components organized by feature
-    - about/ # About page components
-    - brand/ # Branding related components
-    - contact/ # Contact page components
-    - common/ # Shared components across features
-      - global-footer.tsx # Footer component
-    - dedication/ # Dedication page components
-    - logo-philosophy/ # Logo philosophy components
-    - motion/ # Animation components
-    - news/ # News feature components
-    - ui/ # Reusable UI components (shadcn/ui)
+  - components/ # React components
+    - brand/ # Brand components
+    - common/ # Shared components
+      - navbar.tsx
+      - global-footer.tsx
+    - editor/ # TipTap editor components
+    - home/ # Homepage components
+    - me/ # User dashboard components
+    - post/ # Post components
+    - publish/ # Publish components
+    - search/ # Search components
+    - ui/ # UI component library (shadcn/ui)
   - hooks/ # Custom React hooks
-  - lib/ # Utility functions and shared logic
-    - utils.ts # General utility functions
-  - styles/ # Styling files
-    - globals.css # Global CSS styles
+  - images/ # Static images
+  - lib/ # Utility functions
+    - utils.ts
   - server/ # Server-side code
-    - api/ # Server-side API implementations
-  - trpc/ # tRPC configurations and routers
-  - env.js # Environment variable validation (t3-env)
+    - api/ # tRPC API handlers
+    - auth.ts # Authentication setup
+    - db.ts # Database configuration
+    - ratelimit.ts # Rate limiting configuration
+  - styles/ # Global styles
+    - globals.css
+  - trpc/ # tRPC setup
+  - env.js # Environment variables validation
 </FileTree>
 
 ## Penjelasan Struktur Direktori
 
-Proyek ini mengikuti arsitektur [T3 Stack](https://create.t3.gg/), yang menekankan _type-safety_ dan modularitas. Struktur dri atas menunjukkan susunan folder kami yang berbasis fitur, pemisahan kode klien/server yang jelas, dan mengikuti ketentuan Next.js App Router.
+Proyek ini mengikuti arsitektur [T3 Stack](https://create.t3.gg/) dengan [TipTap](https://tiptap.dev/) untuk pengeditan teks yang lebih keren. Struktur ini menekankan _type-safety_, modularitas, dan _separation of concerns_ yang jelas.
 
-### Direktori Utama
+### Direktori Root
 
 - **prisma/**: Berisi _file_ yang berkaitan dengan basis data menggunakan Prisma ORM
   - `schema.prisma`: Mendefinisikan model basis data, hubungan, dan konfigurasi
+  - `seed.js`: Skrip penanaman data awal
 - **public/**: Aset statis yang disajikan langsung
   - Gambar, _font_, dan _resources_ publik lainnya
 - **src/**: Direktori _source code_ utama yang berisi semua kode aplikasi
 
 ### Direktori Aplikasi (Next.js App Router)
 
-Direktori `app/` mengikuti ketentuan Next.js 13+ App Router:
+Direktori `app/` mengikuti ketentuan Next.js 14 App Router:
 
 - **api/**: Rute API back-end
   - `trpc/`: Konfigurasi dan _endpoint_ API tRPC
-- **Halaman Berbasis fitur**: Setiap fitur utama memiliki direktori sendiri
-  - `about/`, `contact/`, `news/`, dll.
+- **Halaman Berbasis Fitur**: Setiap fitur utama memiliki direktori sendiri
+  - `me/`, `search/`, `new/`, dll.
   - Masing-masing berisi `page.tsx` untuk _view_ utama
 - **Rute Dinamis**: Menggunakan _routing_ berbasis _file_ Next.js
-  - `[type]/`: Rute dinamis untuk berbagai jenis departemen
-  - `[department]/`: Rute dinamis yang bersifat _nested_ untuk halaman departemen
+  - `[username]/`: Rute dinamis untuk profil pengguna
+  - `tag/[tag-slug]/`: Rute dinamis untuk halaman _tag_
 
 ### Direktori Komponen
 
 Komponen disusun berdasarkan fitur dan tanggung jawab:
 
 - **Komponen Fitur**: Dikelompokkan berdasarkan fitur
-  - `about/`: Komponen khusus halaman _about_
-  - `contact/`: Komponen halaman _contact_
-  - `news/`: Komponen fitur _news_
+  - `editor/`: Komponen editor teks yang keren
+  - `home/`: Komponen khusus halaman beranda
+  - `post/`: Komponen terkait posting
+  - `search/`: Komponen antarmuka pencarian
   
-- **Komponen Umum**: Dipakai pada seluruh fitur
-  - `common/`: Komponen global seperti _header_ dan _footer_
-  - `motion/`: Komponen animasi dan transisi
+- **Komponen Umum**: Dipakai di seluruh fitur
+  - `common/`: Komponen global seperti _navbar_ dan _footer_
+  - `brand/`: Komponen terkait _branding_
   - `ui/`: Komponen UI yang dapat digunakan kembali (menggunakan shadcn/ui)
     - Tombol, formulir, modal, dll.
     - Konfigurasi tema dan komponen dasar
@@ -95,12 +99,12 @@ Komponen disusun berdasarkan fitur dan tanggung jawab:
 
 - **hooks/**: _Custom_ React Hooks untuk logika bersama
 - **lib/**: Utilitas inti dan logika bersama
-  - Pembantu otentikasi
   - Utilitas umum
   - Definisi dari _type_
 - **server/**: Kode khusus pada sisi server
   - Implementasi API
-  - Utilitas server
+  - Pengaturan autentikasi
+  - Konfigurasi basis data
 - **trpc/**: Konfigurasi dan _router_ tRPC
   - Definisi rute API
   - Prosedur _type-safe_
@@ -115,20 +119,18 @@ Komponen disusun berdasarkan fitur dan tanggung jawab:
 
 Untuk mengimpor _file_, Anda dapat menggunakan alias `@/`. Alias ini dikonfigurasi secara otomatis dalam proyek.
 
-```tsx title="src/app/news/page.tsx"
-import { FadeIn } from "@/components/motion/fade-in";
-import { MotionText } from "@/components/motion/motion-text";
-import { UnderlineHover } from "@/components/motion/underline-hover";
-import { NewsCard } from "@/components/news/news-card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
-import { abbreviation, cn, momentId } from "@/lib/utils";
-import { api } from "@/trpc/server";
+```tsx title="src/app/page.tsx"
+import { Navbar } from "@/components/common/navbar";
+import { Articles } from "@/components/home/articles";
+import { Sidebar } from "@/components/home/sidebar";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getServerAuthSession } from "@/server/auth";
 ```
 
 Pendekatan ini sangat berguna ketika Anda bekerja pada proyek besar dengan banyak _file_ dan _folder_ dan dapat dilakukan dengan memperbarui _file_ tsconfig.json menjadi berikut:
 
-<details> 
+<details>
 <summary>Konfigurasi Typescript</summary>
 
 ```diff lang="json" title="tsconfig.json" 
