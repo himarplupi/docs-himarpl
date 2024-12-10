@@ -27,16 +27,3 @@ jobs:
 
       - name: Run Tests
         run: npm run build
-
-      - name: Comment Preview URL
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issue_number = context.issue.number;
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.name,
-              issue_number: issue_number,
-              body: `✨ Passed local build`
-            });
