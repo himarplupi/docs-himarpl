@@ -1,6 +1,6 @@
 ---
 title: mabim-himarpl
-description: The first one and only website by HIMARPL for providing information about Masa Bimbinagan RPL (Student Orientation Program) at UPI.
+description: Website yang pertama dan satu-satunya oleh HIMARPL yang menyediakan segala informasi mengenai Masa Bimbingan Rekayasa Perangkat Lunak (Program Orientasi Mahasiswa) di UPI.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
@@ -10,12 +10,12 @@ import { Code } from "@astrojs/starlight/components";
 {/* ! When translating this file, please add ../ to the image path ! */}
 ![Mabim-himarpl preview taken November 2025](../../../assets/preview/mabim-himarpl.png)
 
-[mabim.himarpl.com](https://mabim.himarpl.com) is the first one and only website by HIMARPL for providing information about Masa Bimbinagan RPL (Student Orientation Program) at UPI. The website is built using NextJS.
+[mabim.himarpl.com](https://mabim.himarpl.com) merupakan website yang pertama dan satu-satunya oleh HIMARPL yang menyediakan segala informasi mengenai Masa Bimbingan Rekayasa Perangkat Lunak (Program Orientasi Mahasiswa) di UPI. Website ini dibuat menggunakan NextJS.
 
-## Key Features
+## Fitur Kunci
 
-- Interactive Hero Section with Animated Elements
-- Dynamic Group/Mentor Information System
+- _Hero Section_ yang interaktif dengan elemen yang dianimasikan
+- Sistem Informasi kelompok/mentor yang dinamis
 - Event Timeline & Countdown
 - FAQ Section
 - Sponsor & Media Partner Showcase
@@ -32,8 +32,8 @@ import { Code } from "@astrojs/starlight/components";
 
 **UI Components & Styling**
 - Radix UI Components (Various @radix-ui/* packages)
-- Tailwind CSS with Custom Configuration
-- Motion for Animations
+- Tailwind CSS dengan Custom Configuration
+- Motion untuk Animations
 - Shadcn UI Components
 - Custom Modern-Cyber Components
 
@@ -53,21 +53,21 @@ import { Code } from "@astrojs/starlight/components";
 ## Setup Local Development
 
 
-This guide will walk you through setting up a local development environment for the Mabim HIMARPL website.
+Panduan ini akan membantu dalam menyiapkan lingkungan pengembangan lokal untuk website MABIMRPL
 
-### Prerequisites
+### Prasyarat
 
-Before installing the application, ensure you have:
+Sebelum menginstal aplikasi, pastikan kamu sudah memiliki:
 
 1. [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed
 2. [Git](https://git-scm.com/) installed
 
 
-### Setup Steps
+### Langkah-langkah Setup
 
 <Steps>
 
-1. Fork and clone the repository:
+1. Fork dan clone repository:
 
    <Tabs>
      <TabItem label="HTTPS">
@@ -93,13 +93,13 @@ Before installing the application, ensure you have:
      </TabItem>
    </Tabs>
 
-2. Navigate to project directory:
+2. Masuk ke direktori proyek:
 
    ```bash
    cd mabim-himarpl
    ```
 
-3. Set up remote upstream:
+3. Tambahkan remote upstream:
 
    <Tabs>
      <TabItem label="HTTPS">
@@ -125,54 +125,54 @@ Before installing the application, ensure you have:
      </TabItem>
    </Tabs>
 
-4. Install dependencies and start development server:
+4. Instal dependensi and jalankan server pengembangan:
 
    ```bash
-   npm ci              # Install dependencies
-   npm run dev         # Start development server
+   npm ci              # Install semua depenensi
+   npm run dev         # Jalankan server pengembangan
    ```
 
    The application should now be running at `http://localhost:3000`.
 
-5. Create a new branch for your changes:
+5. Buat branch baru untuk perubahan yang akan dilakukan:
 
    ```bash
    git checkout -b my-feature-branch
    ```
 
 
-6. After you are satisfied with your changes, add and commit them to your branch, then push your branch to your fork.
+6. Setelah puas dengan perubahan yang dibuat, tambahkan dan commit perubahan tersebut, lalu push ke fork milikmu.
 
    ```bash
    git add .
-   git commit # Please follow the commit guidelines below   
+   git commit # Mohon ikuti panduan commit di bawah   
    git push -u origin my-feature-branch
    ```
 
    :::note[IMPORTANT]
-    Before committing and opening a Pull Request, please read [Commit Guidelines](/getting-started/05-contribution-guide/#commit-guidelines) and [Pull Request Policy](/getting-started/05-contribution-guide/#pull-request-policy) below.
+    Sebelum melakukan commit dan membuat Pull Request, baca [Commit Guidelines](/getting-started/05-contribution-guide/#commit-guidelines) dan [Pull Request Policy](/getting-started/05-contribution-guide/#pull-request-policy).
    :::
 
-7. Create Pull Request.
+7. Buat Pull Request.
    :::note[NOTE]
-    We request PR authors to avoid rebasing/updating their PRs with the `main` branch unnecessarily.
+    Kami meminta pembuat PR untuk tidak sering melakukan rebase atau update PR dengan branch `main` jika tidak diperlukan.
    :::
 </Steps>
 
-### Available Scripts
+### Skrip yang Tersedia
 
-- `npm run dev` - Starts development server with hot reload
-- `npm run build` - Creates production build
-- `npm run start` - Starts production server
+- `npm run dev` - Menjalankan server pengembangan dengan hot reload
+- `npm run build` - Membuat build untuk produksi
+- `npm run start` - Menjalankan server produksi
 - `npm run lint` - Runs linting checks
 
 ## Future Migration
 
-Read the [future planning on domain management](../../getting-started/04-staff-guide/#future-planning) for more information about this `mabim-himarpl` website. After the migration, this website will be archived and the `mabim.himarpl.com` domain will be used for the new Mabim website.
+Read the [future planning on domain management](../../getting-started/04-staff-guide/#future-planning) for more information about this `mabim-himarpl` website. After the migration, this website will be archived and the `mabim.himarpl.org` domain will be used for the new Mabim website.
 
 ## Support
 
-For questions or issues:
+Untuk pertanyaan ataupun issues:
 
 - [GitHub Issues](https://github.com/himarplupi/mabim-himarpl-2025/issues)
 - Contact Departemen Kominfo HIMARPL
@@ -180,5 +180,5 @@ For questions or issues:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/himarplupi/mabim-himarpl-2025/blob/main/LICENSE) file for details.
+Proyek ini berada dibawah lisensi MIT - lihat [LICENSE](https://github.com/himarplupi/mabim-himarpl-2025/blob/main/LICENSE) file untuk lebih detail.
 
