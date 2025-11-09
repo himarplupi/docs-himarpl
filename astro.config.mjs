@@ -49,9 +49,9 @@ export default defineConfig({
           },
         },
         {
-          label: "ascendia-himarpl",
+          label: "devoria-himarpl",
           autogenerate: {
-            directory: "ascendia-himarpl",
+            directory: "devoria-himarpl",
           },
         },
         {

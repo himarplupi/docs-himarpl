@@ -12,10 +12,8 @@ HIMARPL memanfaatkan infrastruktur _cloud_ modern untuk membangun aplikasi yang 
 
 Proyek utama kami mengikuti pola arsitektur yang konsisten:
 
-- [Ascendia](https://github.com/himarplupi/ascendia-himarpl) - Situs web utama organisasi
+- [Devoria](https://github.com/himarplupi/devoria-himarpl) - Situs web utama organisasi
 - [Admin Portal](https://github.com/himarplupi/admin-himarpl) - Dasbor admin internal
-- [Blog Platform](https://github.com/himarplupi/blog-himarpl) - Platform blog seperti Medium
-- [PMB](https://github.com/himarplupi/pmb-himarpl) - Situs informasi penerimaan mahasiswa
 
 ### Arsitektur Tiga Lapisan
 
@@ -28,7 +26,7 @@ UI modern dibangun dengan:
 - 🎨 [TailwindCSS](https://tailwindcss.com/) - _Styling_ berbasis utilitas
 - 🧩 [Shadcn/UI](https://ui.shadcn.com/docs) - Komponen yang dapat digunakan kembali
 - ✨ [Motion](https://motion.dev) - Animasi halus
-- 🔄 [Tanstack Query](https://tanstack.com/query) - Pengambilan data
+- 🔄 [Axios](https://axios-http.com/docs/intro) - Pengambilan data
 
 #### 2. Lapisan Tengah ([T3 Stack](https://create.t3.gg/))
 
@@ -58,12 +56,6 @@ Layanan inti yang digunakan di semua proyek:
 - Basis data SQL terdistribusi
 - Menangani _cross-project_ data 
 
-#### Analitik ([PostHog](https://posthog.com/))
-
-- Pelacakan _user behavior_
-- Pemantauan kinerja
-- Analitik terpusat
-
 #### Rate Limiting ([Upstash](https://upstash.com/))
 
 - _Rate limiting_ berbasis Redis
@@ -76,7 +68,6 @@ Layanan inti yang digunakan di semua proyek:
 
 Kami memelihara proyek ringan untuk acara dan kebutuhan sementara:
 
-- `lomba-himarpl` - Situs web kompetisi
 - `mabim-himarpl` - Situs web orientasi mahasiswa
 
 Ini menggunakan teknologi _front-end only_ yang disederhanakan:
@@ -85,37 +76,6 @@ Ini menggunakan teknologi _front-end only_ yang disederhanakan:
 - Styling TailwindCSS
 - Komponen Shadcn/UI
 - Animasi Motion
-
-## Platform Bot (Phoenix-chan)
-
-{/* ! Saat menerjemahkan file ini, tambahkan ../ ke jalur gambar ! */}
-![Diagram Komponen Bot HIMARPL](../../../../assets/diagrams/bot-himarpl-diagram.png)
-
-Bot Telegram kami menggunakan arsitektur khusus:
-
-### Komponen
-
-1. **Dasbor Front-end**
-
-   - Masih Dalam pengembangan, [berkontribusi di sini](https://github.com/himarplupi/bot-himarpl)
-
-2. **T3 Stack Inti**
-
-   - TypeScript
-   - Routing Next.js
-   - Drizzle ORM
-   - Upstash Rate limiting
-
-3. **Layanan Bot**
-   - Penangan webhook
-   - Prosedur perintah
-   - Integrasi API Telegram
-
-### Layanan Eksternal
-
-- [API Bot Telegram](https://core.telegram.org/bots/api)
-- [NeonDB](https://neon.tech/) (PostgreSQL)
-- [Upstash](https://upstash.com/) Redis
 
 ## Penerapan
 

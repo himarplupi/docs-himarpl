@@ -12,10 +12,8 @@ HIMARPL leverages modern cloud infrastructure to build reliable, scalable, and m
 
 Our main projects follow a consistent architecture pattern:
 
-- [Ascendia](https://github.com/himarplupi/ascendia-himarpl) - Main organization website
+- [Devoria](https://github.com/himarplupi/devoria-himarpl) - Main organization website
 - [Admin Portal](https://github.com/himarplupi/admin-himarpl) - Internal admin dashboard
-- [Blog Platform](https://github.com/himarplupi/blog-himarpl) - Medium-style blogging
-- [PMB](https://github.com/himarplupi/pmb-himarpl) - Website information for student admission
 
 ### Three-Layer Architecture
 
@@ -28,7 +26,7 @@ Modern UI built with:
 - 🎨 [TailwindCSS](https://tailwindcss.com/) - Utility-first styling
 - 🧩 [Shadcn/UI](https://ui.shadcn.com/docs) - Reusable components
 - ✨ [Motion](https://motion.dev) - Smooth animations
-- 🔄 [Tanstack Query](https://tanstack.com/query) - Data fetching
+- 🔄 [Axios](https://axios-http.com/docs/intro) - Data fetching
 
 #### 2. Middle Layer ([T3 Stack](https://create.t3.gg/))
 
@@ -58,12 +56,6 @@ Core services used across all projects:
 - Distributed SQL database
 - Handles cross-project data
 
-#### Analytics ([PostHog](https://posthog.com/))
-
-- User behavior tracking
-- Performance monitoring
-- Centralized analytics
-
 #### Rate Limiting ([Upstash](https://upstash.com/))
 
 - Redis-based rate limiting
@@ -76,7 +68,6 @@ Core services used across all projects:
 
 We maintain lightweight projects for events and temporary needs:
 
-- `lomba-himarpl` - Competition websites
 - `mabim-himarpl` - Student orientation sites
 
 These use a simplified frontend-only stack:
@@ -85,37 +76,6 @@ These use a simplified frontend-only stack:
 - TailwindCSS styling
 - Shadcn/UI components
 - Motion animations
-
-## Bot Platform (Phoenix-chan)
-
-{/* ! When translating this file, please add ../ to the image path ! */}
-![Bot HIMARPL Component Diagram](../../../assets/diagrams/bot-himarpl-diagram.png)
-
-Our Telegram bot uses a specialized architecture:
-
-### Components
-
-1. **Frontend Dashboard**
-
-   - On development, [contribute here](https://github.com/himarplupi/bot-himarpl)
-
-2. **T3 Stack Core**
-
-   - TypeScript
-   - Next.js routing
-   - Drizzle ORM
-   - Upstash rate limiting
-
-3. **Bot Service**
-   - Webhook handlers
-   - Command procedures
-   - Telegram API integration
-
-### External Services
-
-- [Telegram Bot API](https://core.telegram.org/bots/api)
-- [NeonDB](https://neon.tech/) (PostgreSQL)
-- [Upstash](https://upstash.com/) Redis
 
 ## Deployment
 
