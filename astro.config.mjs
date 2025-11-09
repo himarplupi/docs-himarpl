@@ -55,18 +55,6 @@ export default defineConfig({
           },
         },
         {
-          label: "blog-himarpl",
-          autogenerate: {
-            directory: "blog-himarpl",
-          },
-        },
-        {
-          label: "pmb-himarpl",
-          autogenerate: {
-            directory: "pmb-himarpl",
-          },
-        },
-        {
           label: "Other Projects",
           translations: {
             id: "Proyek Lainnya",
