@@ -1,13 +1,13 @@
 ---
 title: Setup Local Development
-description: How to setup Ascendia Cabinet HIMARPL Website Local Development
+description: How to setup Devori Cabinet HIMARPL Website Local Development
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { Steps } from "@astrojs/starlight/components";
 import { Code } from "@astrojs/starlight/components";
 
-This guide will walk you through setting up a local development environment for the Ascendia Cabinet HIMARPL website.
+This guide will walk you through setting up a local development environment for the Devoria Cabinet HIMARPL website.
 
 ## Prerequisites
 
@@ -17,7 +17,6 @@ Before installing the application, ensure you have:
 2. [Git](https://git-scm.com/) installed
 3. Access to the following services:
    - CockroachDB account
-   - PostHog account (optional)
 
 ## Environment Setup Details
 
@@ -36,21 +35,21 @@ Follow the [CockroachDB Quickstart Guide](https://www.cockroachlabs.com/docs/coc
    <Tabs>
      <TabItem label="HTTPS">
        <Code
-         code={`git clone https://github.com/himarplupi/ascendia-himarpl.git`}
+         code={`git clone https://github.com/himarplupi/devoria-himarpl.git`}
          lang="bash"
          title="HTTPS"
        />
      </TabItem>
      <TabItem label="SSH">
        <Code
-         code={`git clone git@github.com:himarplupi/ascendia-himarpl.git`}
+         code={`git clone git@github.com:himarplupi/devoria-himarpl.git`}
          lang="bash"
          title="SSH"
        />
      </TabItem>
      <TabItem label="GitHub CLI">
        <Code
-         code={`gh repo clone himarplupi/ascendia-himarpl`}
+         code={`gh repo clone himarplupi/devoria-himarpl`}
          lang="bash"
          title="GitHub CLI"
        />
@@ -60,7 +59,7 @@ Follow the [CockroachDB Quickstart Guide](https://www.cockroachlabs.com/docs/coc
 2. Navigate to project directory:
 
    ```bash
-   cd ascendia-himarpl
+   cd devoria-himarpl
    ```
 
 3. Create environment variables file:
@@ -71,8 +70,6 @@ Follow the [CockroachDB Quickstart Guide](https://www.cockroachlabs.com/docs/coc
    NEXT_PUBLIC_BASE_URL="http://localhost:3000"
    NEXT_PUBLIC_BASE_PATH=""
    NEXT_BASE_URL="http://localhost:3000"
-   NEXT_PUBLIC_POSTHOG_KEY=
-   NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
    ```
 
 4. Set up remote upstream:
@@ -80,21 +77,21 @@ Follow the [CockroachDB Quickstart Guide](https://www.cockroachlabs.com/docs/coc
    <Tabs>
      <TabItem label="HTTPS">
        <Code
-         code={`git remote add upstream https://github.com/himarplupi/ascendia-himarpl.git`}
+         code={`git remote add upstream https://github.com/himarplupi/devoria-himarpl.git`}
          lang="bash"
          title="HTTPS"
        />
      </TabItem>
      <TabItem label="SSH">
        <Code
-         code={`git remote add upstream git@github.com:himarplupi/ascendia-himarpl.git`}
+         code={`git remote add upstream git@github.com:himarplupi/devoria-himarpl.git`}
          lang="bash"
          title="SSH"
        />
      </TabItem>
      <TabItem label="GitHub CLI">
        <Code
-         code={`gh repo sync himarplupi/ascendia-himarpl`}
+         code={`gh repo sync himarplupi/devoria-himarpl`}
          lang="bash"
          title="GitHub CLI"
        />

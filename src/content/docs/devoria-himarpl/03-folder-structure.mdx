@@ -1,53 +1,21 @@
 ---
 title: Folder Structure
-description: Folder Structure of Ascendia Cabinet HIMARPL's Website
+description: Folder Structure of Devoria Cabinet HIMARPL's Website
 ---
 
 import { FileTree } from '@astrojs/starlight/components';
 
 <FileTree>
-- prisma/ # Database management (Prisma ORM)
-  - schema.prisma # Database schema definitions and relationships
 - public/ # Static assets (images, fonts, etc.)
 - src/ # Main source code directory
-  - app/ # Next.js 13+ App Router directory
-    - api/ # API routes
-      - trpc/ # tRPC API configuration
-        - [trpc]/ # tRPC dynamic routes
-    - contact/ # Contact page feature
-      - page.tsx # Contact page component
-    - about/ # About section with dynamic routing
-      - [type]/ # Dynamic route for different types
-        - [department]/ # Nested dynamic route for departments
-          - page.tsx
-      - logo-philosophy/ # Logo philosophy section
-        - page.tsx
-    - dedication/ # Dedication page feature
-      - page.tsx
-    - news/ # News feature
-      - page.tsx
-    - page.tsx # Homepage
-    - layout.tsx # Root layout
-  - components/ # React components organized by feature
-    - about/ # About page components
-    - brand/ # Branding related components
-    - contact/ # Contact page components
-    - common/ # Shared components across features
-      - global-footer.tsx # Footer component
-    - dedication/ # Dedication page components
-    - logo-philosophy/ # Logo philosophy components
-    - motion/ # Animation components
-    - news/ # News feature components
-    - ui/ # Reusable UI components (shadcn/ui)
-  - hooks/ # Custom React hooks
-  - lib/ # Utility functions and shared logic
-    - utils.ts # General utility functions
-  - styles/ # Styling files
-    - globals.css # Global CSS styles
-  - server/ # Server-side code
-    - api/ # Server-side API implementations
-  - trpc/ # tRPC configurations and routers
-  - env.js # Environment variable validation (t3-env)
+  - components/ # UI Components
+  - layouts/ # Main Layout
+  - lib/ # SEO
+  - pages/ #Here lies a pages
+  - App.css
+  - App.jsx
+  - index.css
+  - main.jsx
 </FileTree>
 
 ## Directory Structure Explanation
@@ -56,24 +24,9 @@ This project follows the [T3 Stack](https://create.t3.gg/) architecture, which e
 
 ### Root Directories
 
-- **prisma/**: Contains database-related files using Prisma ORM
-  - `schema.prisma`: Defines database models, relationships, and configurations
 - **public/**: Static assets that are served directly
   - Images, fonts, and other public resources
 - **src/**: Main source code directory containing all application code
-
-### App Directory (Next.js App Router)
-
-The `app/` directory follows Next.js 13+ App Router conventions:
-
-- **api/**: Backend API routes
-  - `trpc/`: tRPC API configuration and endpoints
-- **Feature-based pages**: Each major feature has its own directory
-  - `about/`, `contact/`, `news/`, etc.
-  - Each contains a `page.tsx` for the main view
-- **Dynamic Routes**: Uses Next.js file-based routing
-  - `[type]/`: Dynamic routes for different department types
-  - `[department]/`: Nested dynamic routes for department pages
 
 ### Components Directory
 
@@ -91,88 +44,8 @@ Components are organized by feature and responsibility:
     - Buttons, forms, modals, etc.
     - Theme configuration and base components
 
-### Core Directories
-
-- **hooks/**: Custom React hooks for shared logic
-- **lib/**: Core utilities and shared logic
-  - Authentication helpers
-  - Common utilities
-  - Type definitions
-- **server/**: Server-side specific code
-  - API implementations
-  - Server utilities
-- **trpc/**: tRPC configuration and routers
-  - API route definitions
-  - Type-safe procedures
-
 ### Styles
 
 - **styles/**: Global styling configurations
   - `globals.css`: Global CSS styles, Tailwind configurations, and Shadcn/UI theme configuration
 
-
-## Importing Files
-
-To import files, you can use the `@/` alias. This alias is automatically configured in the project.
-
-```tsx title="src/app/news/page.tsx"
-import { FadeIn } from "@/components/motion/fade-in";
-import { MotionText } from "@/components/motion/motion-text";
-import { UnderlineHover } from "@/components/motion/underline-hover";
-import { NewsCard } from "@/components/news/news-card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
-import { abbreviation, cn, momentId } from "@/lib/utils";
-import { api } from "@/trpc/server";
-```
-
-This approach is very useful when you are working on a large project with a lot of files and folders and it can be done by updating the tsconfig.json file to the following:
-
-<details>
-<summary>Typescript Config</summary>
-
-```diff lang="json" title="tsconfig.json" 
-{
-  "compilerOptions": {
-    /* Base Options: */
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "es2022",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "checkJs": true,
-
-    /* Bundled projects */
-    "lib": ["dom", "dom.iterable", "ES2022"],
-    "noEmit": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
-    "incremental": true,
-
-    /* Path Aliases */
-    "baseUrl": ".",
-+    "paths": {
-+      "@/*": ["./src/*"]
-+    }
-  },
-  "include": [
-    ".eslintrc.cjs",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.js",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", "lint-staged.config.js", "commitlint.config.js"]
-}
-```
-</details>
