@@ -16,15 +16,15 @@ Sebelum menginstal aplikasi, pastikan Anda memiliki:
 1. [Node.js](https://nodejs.org/en) dan [npm](https://www.npmjs.com/) terinstal
 2. [Git](https://git-scm.com/) terinstal
 3. Akses ke layanan berikut:
-  - Akun CockroachDB
+  - Akun Turso
 
 ## Detail Pengaturan Lingkungan
 
 Proyek ini memerlukan beberapa _environment variable_ yang harus diatur dalam _file_ `.env` agar berfungsi dengan baik.
 
-### Pengaturan CockroachDB
+### Pengaturan Turso
 
-Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart) untuk mendapatkan `DATABASE_URL` Anda.
+Ikuti [Panduan Cepat Turso](https://docs.turso.tech/tursodb/quickstart) untuk mendapatkan `DATABASE_URL` Anda.
 
 ## Langkah-langkah Pengaturan
 
@@ -102,7 +102,6 @@ Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcl
 
    ```bash
    npm ci              # Install dependencies
-   npm run db:push     # Push database schema to CockroachDB
    npm run dev         # Start development server
    ```
 
@@ -138,6 +137,4 @@ Ikuti [Panduan Cepat CockroachDB](https://www.cockroachlabs.com/docs/cockroachcl
 - `npm run dev` - Memulai server pengembangan dengan _hot reload_
 - `npm run build` - Membuat _build_ produksi
 - `npm run start` - Memulai server produksi
-- `npm run db:push` - Mendorong skema basis data ke CockroachDB
-- `npm run db:studio` - Membuka Prisma Studio untuk manajemen basis data
 - `npm run lint` - Menjalankan pemeriksaan _linting_

@@ -5,7 +5,7 @@ description: A guide to the database schema for HIMARPL's cloud infrastructure
 
 HIMARPL uses two databases for different purposes:
 
-1. **CockroachDB** with Prisma ORM - For core projects and main infrastructure
+1. **Turso** with Drizzle ORM - For core projects and main infrastructure
 2. **PostgreSQL** (NeonDB) with Drizzle ORM - For the bot functionality
 
 ## Core Database Structure
@@ -14,149 +14,352 @@ HIMARPL uses two databases for different purposes:
 
 ### Main Classes
 
-:::note[Prisma Schema]
-If you want to integrate your new project with the database, you can use the Prisma Schema below.
+:::note[Drizzle Schema]
+If you want to integrate your new project with the database, you can use the Drizzle Schema below.
 
 <details>
-<summary>View Complete Prisma Schema</summary>
+<summary>View Complete Drizzle Schema</summary>
 
-```prisma {27-37, 39-55, 57-70, 72-80, 82-102, 104-120, 122-128, 130-136}
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+```typescript {15-43, 45-72, 74-86, 88-104, 106-128, 130-152, 154-171, 173-199, 201-228, 230-244, 246-260, 262-279, 281-298, 300-320, 322-339}
+// learn more about it in the docs: https://orm.drizzle.team/docs/overviews
 
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
-}
+import {
+  sqliteTable,
+  uniqueIndex,
+  foreignKey,
+  text,
+  numeric,
+  integer,
+  index,
+} from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
+import { createId } from "@paralleldrive/cuid2";
 
-datasource db {
-  provider = "cockroachdb"
-  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-  url      = env("DATABASE_URL")
-}
+export const postTags = sqliteTable(
+  "post_tags",
+  {
+    id: text()
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => createId()),
+    title: text().notNull(),
+    slug: text().notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+    parentId: text("parent_id"),
+  },
+  (table) => [
+    uniqueIndex("post_tags_slug_key").on(table.slug),
+    uniqueIndex("post_tags_title_key").on(table.title),
+    foreignKey(() => ({
+      columns: [table.parentId],
+      foreignColumns: [table.id],
+      name: "post_tags_parent_id_post_tags_id_fk",
+    }))
+      .onUpdate("cascade")
+      .onDelete("cascade"),
+  ]
+);
 
-enum DepartmentType {
-  BE
-  DP
-}
+export const posts = sqliteTable(
+  "posts",
+  {
+    id: text()
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => createId()),
+    authorId: text("author_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    title: text().notNull(),
+    metaTitle: text("meta_title").notNull(),
+    slug: text().notNull(),
+    content: text().notNull(),
+    rawHtml: text().notNull(),
+    image: text(),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+    publishedAt: numeric("published_at"),
+  },
+  (table) => [
+    uniqueIndex("posts_author_id_slug_key").on(table.authorId, table.slug),
+  ]
+);
 
-enum Role {
-  admin
-  member
-}
+export const programs = sqliteTable("programs", {
+  id: text()
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => createId()),
+  content: text().notNull(),
+  departmentId: text("department_id")
+    .notNull()
+    .references(() => departments.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+});
 
-model PostTag {
-  id        String    @id @default(cuid())
-  title     String    @unique
-  slug      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  parentId  String?
-  parent    PostTag?  @relation("ParentChildren", fields: [parentId], references: [id])
-  children  PostTag[] @relation("ParentChildren")
-  posts     Post[]
-}
+export const positions = sqliteTable("positions", {
+  id: text()
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => createId()),
+  name: text().notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  departmentId: text("department_id").references(() => departments.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
+});
 
-model Post {
-  id          String    @id @default(cuid())
-  authorId    String
-  title       String
-  metaTitle   String
-  slug        String
-  content     String
-  rawHtml     String
-  image       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now()) @updatedAt
-  publishedAt DateTime?
-  author      User      @relation(fields: [authorId], references: [id])
-  tags        PostTag[]
+export const departments = sqliteTable("departments", {
+  id: text()
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => createId()),
+  name: text().notNull(),
+  acronym: text().notNull(),
+  image: text(),
+  description: text(),
+  type: text().default("BE").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  periodYear: integer("period_year")
+    .notNull()
+    .references(() => periods.year, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+});
 
-  @@unique([authorId, slug])
-}
+export const periods = sqliteTable(
+  "periods",
+  {
+    id: text()
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => createId()),
+    logo: text().notNull(),
+    name: text().notNull(),
+    description: text(),
+    year: integer().notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex("periods_year_key").on(table.year),
+    uniqueIndex("periods_name_key").on(table.name),
+  ]
+);
 
-model Department {
-  id          String         @id @default(cuid())
-  name        String
-  acronym     String
-  image       String?
-  description String?
-  programs    String[]
-  type        DepartmentType
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @default(now()) @updatedAt
-  users       User[]
+export const socialMedias = sqliteTable(
+  "social_medias",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    name: text().notNull(),
+    username: text().notNull(),
+    url: text().notNull(),
+  },
+  (table) => [
+    uniqueIndex("social_medias_user_id_name_username_key").on(
+      table.userId,
+      table.name,
+      table.username
+    ),
+  ]
+);
 
-  @@unique([type, acronym])
-}
+export const users = sqliteTable(
+  "users",
+  {
+    id: text()
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => createId()),
+    name: text(),
+    email: text(),
+    emailVerified: integer("email_verified", { mode: "timestamp" }),
+    image: text(),
+    username: text(),
+    bio: text(),
+    role: text().default("member").notNull(),
+    lastLoginAt: integer("last_login_at", { mode: "timestamp" }),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+      .default(sql`(CURRENT_TIMESTAMP)`)
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex("users_username_key").on(table.username),
+    uniqueIndex("users_email_key").on(table.email),
+  ]
+);
 
-model SocialMedia {
-  userId   String
-  name     String
-  username String
-  url      String
-  user     User   @relation(fields: [userId], references: [id])
+export const accounts = sqliteTable(
+  "accounts",
+  {
+    id: text()
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => createId()),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    type: text().notNull(),
+    provider: text().notNull(),
+    providerAccountId: text("provider_account_id").notNull(),
+    refreshToken: text("refresh_token"),
+    accessToken: text("access_token"),
+    expiresAt: integer("expires_at"),
+    tokenType: text("token_type"),
+    scope: text(),
+    idToken: text("id_token"),
+    sessionState: text("session_state"),
+  },
+  (table) => [
+    uniqueIndex("accounts_provider_provider_account_id_key").on(
+      table.provider,
+      table.providerAccountId
+    ),
+  ]
+);
 
-  @@unique([userId, name, username])
-}
+export const sessions = sqliteTable(
+  "sessions",
+  {
+    id: text()
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => createId()),
+    sessionToken: text().notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    expires: numeric().notNull(),
+  },
+  (table) => [uniqueIndex("sessions_sessionToken_key").on(table.sessionToken)]
+);
 
-model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  image         String?
-  username      String?       @unique
-  bio           String?
-  position      String?
-  periods       String[]
-  role          Role          @default(member)
-  lastLoginAt   DateTime?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @default(now()) @updatedAt
-  departmentId  String?
-  department    Department?   @relation(fields: [departmentId], references: [id])
-  posts         Post[]
-  socialMedia   SocialMedia[]
-  accounts      Account[]
-  sessions      Session[]
-}
+export const verificationTokens = sqliteTable(
+  "verification_tokens",
+  {
+    identifier: text().notNull(),
+    token: text().notNull(),
+    expires: integer({ mode: "timestamp" }).notNull(),
+  },
+  (table) => [
+    uniqueIndex("verification_tokens_identifier_token_key").on(
+      table.identifier,
+      table.token
+    ),
+    uniqueIndex("verification_tokens_token_key").on(table.token),
+  ]
+);
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? // @db.Text
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+export const postToPostTag = sqliteTable(
+  "_PostToPostTag",
+  {
+    postId: text("post_id")
+      .notNull()
+      .references(() => posts.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    postTagId: text("post_tag_id")
+      .notNull()
+      .references(() => postTags.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+  },
+  (table) => [
+    uniqueIndex("_PostToPostTag_AB_unique").on(table.postId, table.postTagId),
+    index("post_id_idx").on(table.postId),
+  ]
+);
 
-  @@unique([provider, providerAccountId])
-}
+export const positionToUser = sqliteTable(
+  "_PositionToUser",
+  {
+    positionId: text("position_id")
+      .notNull()
+      .references(() => positions.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  },
+  (table) => [
+    index("position_id_idx").on(table.positionId),
+    uniqueIndex("_PositionToUser_AB_unique").on(table.positionId, table.userId),
+  ]
+);
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+export const departmentToUser = sqliteTable(
+  "_DepartmentToUser",
+  {
+    departmentId: text("department_id")
+      .notNull()
+      .references(() => departments.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  },
+  (table) => [
+    index("department_id_idx").on(table.departmentId),
+    uniqueIndex("_DepartmentToUser_AB_unique").on(
+      table.departmentId,
+      table.userId
+    ),
+  ]
+);
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
+export const periodToUser = sqliteTable(
+  "_PeriodToUser",
+  {
+    periodId: text("period_id")
+      .notNull()
+      .references(() => periods.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  },
+  (table) => [
+    index("period_id_idx").on(table.periodId),
+    uniqueIndex("_PeriodToUser_AB_unique").on(table.periodId, table.userId),
+  ]
+);
 ```
 
 </details>
