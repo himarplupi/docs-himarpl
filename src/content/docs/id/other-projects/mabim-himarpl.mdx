@@ -8,7 +8,7 @@ import { Steps } from "@astrojs/starlight/components";
 import { Code } from "@astrojs/starlight/components";
 
 {/* ! When translating this file, please add ../ to the image path ! */}
-![Mabim-himarpl preview taken November 2025](../../../assets/preview/mabim-himarpl.png)
+![Mabim-himarpl preview taken November 2025](../../../../assets/preview/mabim-himarpl.png)
 
 [mabim.himarpl.com](https://mabim.himarpl.com) merupakan website yang pertama dan satu-satunya oleh HIMARPL yang menyediakan segala informasi mengenai Masa Bimbingan Rekayasa Perangkat Lunak (Program Orientasi Mahasiswa) di UPI. Website ini dibuat menggunakan NextJS.
 
@@ -31,7 +31,8 @@ import { Code } from "@astrojs/starlight/components";
 - React DOM
 
 **UI Components & Styling**
-- Radix UI Components (Various @radix-ui/* packages)
+
+- Radix UI Components (Various @radix-ui/\* packages)
 - Tailwind CSS dengan Custom Configuration
 - Motion untuk Animations
 - Shadcn UI Components
@@ -52,7 +53,6 @@ import { Code } from "@astrojs/starlight/components";
 
 ## Setup Local Development
 
-
 Panduan ini akan membantu dalam menyiapkan lingkungan pengembangan lokal untuk website MABIMRPL
 
 ### Prasyarat
@@ -62,7 +62,6 @@ Sebelum menginstal aplikasi, pastikan kamu sudah memiliki:
 1. [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed
 2. [Git](https://git-scm.com/) installed
 
-
 ### Langkah-langkah Setup
 
 <Steps>
@@ -71,25 +70,13 @@ Sebelum menginstal aplikasi, pastikan kamu sudah memiliki:
 
    <Tabs>
      <TabItem label="HTTPS">
-       <Code
-         code={`git clone https://github.com/himarplupi/mabim-himarpl-2025.git`}
-         lang="bash"
-         title="HTTPS"
-       />
+       <Code code={`git clone https://github.com/himarplupi/mabim-himarpl-2025.git`} lang="bash" title="HTTPS" />
      </TabItem>
      <TabItem label="SSH">
-       <Code
-         code={`git clone git@github.com:himarplupi/mabim-himarpl-2025.git`}
-         lang="bash"
-         title="SSH"
-       />
+       <Code code={`git clone git@github.com:himarplupi/mabim-himarpl-2025.git`} lang="bash" title="SSH" />
      </TabItem>
      <TabItem label="GitHub CLI">
-       <Code
-         code={`gh repo clone himarplupi/mabim-himarpl-2025`}
-         lang="bash"
-         title="GitHub CLI"
-       />
+       <Code code={`gh repo clone himarplupi/mabim-himarpl-2025`} lang="bash" title="GitHub CLI" />
      </TabItem>
    </Tabs>
 
@@ -103,25 +90,13 @@ Sebelum menginstal aplikasi, pastikan kamu sudah memiliki:
 
    <Tabs>
      <TabItem label="HTTPS">
-       <Code
-         code={`git remote add upstream https://github.com/himarplupi/mabim-himarpl-2025.git`}
-         lang="bash"
-         title="HTTPS"
-       />
+       <Code code={`git remote add upstream https://github.com/himarplupi/mabim-himarpl-2025.git`} lang="bash" title="HTTPS" />
      </TabItem>
      <TabItem label="SSH">
-       <Code
-         code={`git remote add upstream git@github.com:himarplupi/mabim-himarpl-2025.git`}
-         lang="bash"
-         title="SSH"
-       />
+       <Code code={`git remote add upstream git@github.com:himarplupi/mabim-himarpl-2025.git`} lang="bash" title="SSH" />
      </TabItem>
      <TabItem label="GitHub CLI">
-       <Code
-         code={`gh repo sync himarplu pi/mabim-himarpl-2025`}
-         lang="bash"
-         title="GitHub CLI"
-       />
+       <Code code={`gh repo sync himarplu pi/mabim-himarpl-2025`} lang="bash" title="GitHub CLI" />
      </TabItem>
    </Tabs>
 
@@ -140,24 +115,23 @@ Sebelum menginstal aplikasi, pastikan kamu sudah memiliki:
    git checkout -b my-feature-branch
    ```
 
-
 6. Setelah puas dengan perubahan yang dibuat, tambahkan dan commit perubahan tersebut, lalu push ke fork milikmu.
 
    ```bash
    git add .
-   git commit # Mohon ikuti panduan commit di bawah   
+   git commit # Mohon ikuti panduan commit di bawah
    git push -u origin my-feature-branch
    ```
 
    :::note[IMPORTANT]
-    Sebelum melakukan commit dan membuat Pull Request, baca [Commit Guidelines](/getting-started/05-contribution-guide/#commit-guidelines) dan [Pull Request Policy](/getting-started/05-contribution-guide/#pull-request-policy).
+   Sebelum melakukan commit dan membuat Pull Request, baca [Commit Guidelines](/getting-started/05-contribution-guide/#commit-guidelines) dan [Pull Request Policy](/getting-started/05-contribution-guide/#pull-request-policy).
    :::
 
 7. Buat Pull Request.
    :::note[NOTE]
-    Kami meminta pembuat PR untuk tidak sering melakukan rebase atau update PR dengan branch `main` jika tidak diperlukan.
+   Kami meminta pembuat PR untuk tidak sering melakukan rebase atau update PR dengan branch `main` jika tidak diperlukan.
    :::
-</Steps>
+   </Steps>
 
 ### Skrip yang Tersedia
 
@@ -181,4 +155,3 @@ Untuk pertanyaan ataupun issues:
 ## License
 
 Proyek ini berada dibawah lisensi MIT - lihat [LICENSE](https://github.com/himarplupi/mabim-himarpl-2025/blob/main/LICENSE) file untuk lebih detail.
-
